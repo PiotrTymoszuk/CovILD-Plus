@@ -1,0 +1,254 @@
+---
+title: "CovILD, one-year follow-up"
+subtitle: "Figures and Tables"
+author: "CovILD study team"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+
+output: 
+  bookdown::word_document2:   
+    reference_docx: ms_template.docx
+    
+bibliography: cov_biblio.bib
+csl: frontiers-in-immunology.csl
+header-includes:
+  \usepackage{longtable}
+  \usepackage{tabu}
+  \usepackage{caption}
+  \usepackage{makecell}
+  \usepackage{pdflscape}
+  \usepackage{array}
+  \usepackage{booktabs}
+  \usepackage{threeparttable}
+  \usepackage{threeparttablex}
+  \usepackage{wrapfig}
+  \usepackage{multirow}
+  \usepackage[normalem]{ulem}
+  \usepackage{colortbl}
+  \usepackage{xcolor}
+  \usepackage{float} \floatplacement{figure}{H} \floatplacement{table}{H}
+  \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}}       \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+---
+
+```{r, setup, include = FALSE}
+
+library(bookdown)
+
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev = "png", dpi = 600)
+
+
+```
+
+\newpage
+
+# Tables
+
+```{r tab-cohort, tab.cap = 'Baseline characteristic of the study cohort and the COVID-19 severity groups.'}
+
+paper_tables$cohort_chara %>% 
+  flextable %>% 
+  width(1, width = 3, unit = 'cm') %>% 
+  width(2:5, width = 2.5, unit = 'cm') %>% 
+  width(6, width = 2.5, unit = 'cm') %>% 
+  width(7, width = 1.8, unit = 'cm') %>% 
+  theme_vanilla %>% 
+  footnote(i = 1, j = 6:7, value = as_paragraph('Comparison between the COVID-19 severity strata. Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Vallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
+  footnote(i = 4, j = 1, value = as_paragraph('Body mass index (BMI); overweight > 25 kg/m\u00B2, obesity > 30 kg/m\u00B2'), ref_symbols = '2') %>% 
+  footnote(i = 10, j = 1, value = as_paragraph('CVD: Cardiovascular disease'), ref_symbols = 'b') %>% 
+  footnote(i = 14, j = 1, value = as_paragraph('CKD: Chronic kidney disease'), ref_symbols = 'c') %>% 
+  footnote(i = 15, j = 1, value = as_paragraph('GID: Gastrointestinal disease'), ref_symbols = 'd') %>% 
+  font(part = 'all', fontname = 'Cambria') %>% 
+  fontsize(size = 10, part = 'all')
+
+```
+
+\newpage
+
+```{r tab-enpoints, tab.cap = 'Participant reaching clinical and cardiopulmonary study endpoints in the study cohort and the COVID-19 severity groups.'}
+
+paper_tables$endpoints %>% 
+  flextable %>% 
+  width(1, width = 3, unit = 'cm') %>% 
+  width(2:5, width = 2.5, unit = 'cm') %>% 
+  width(6, width = 2.5, unit = 'cm') %>% 
+  width(7, width = 1.8, unit = 'cm') %>% 
+  theme_vanilla %>% 
+  footnote(i = 1, j = 6:7, value = as_paragraph('COVID-19 severity groups compared with \u03C7\u00B2 test with Cramer V effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
+  footnote(i = 2, j = 1, value = as_paragraph('LFT: Lung function testing.'), ref_symbols = 'b') %>% 
+  footnote(i = 3, j = 1, value = as_paragraph('CT: Chest computed tomography.'), ref_symbols = 'c') %>% 
+  font(part = 'all', fontname = 'Cambria') %>% 
+  fontsize(size = 10, part = 'all')
+
+```
+
+\newpage
+
+```{r tab-psych-reco, tab.cap = 'Mobility, physical performance and psychosocial rating at the 1-year follow-up in the study cohort and the COVID-19 severity groups.'}
+
+paper_tables$psych_reco %>% 
+  flextable %>% 
+  width(1, width = 3, unit = 'cm') %>% 
+  width(2:5, width = 2.5, unit = 'cm') %>% 
+  width(6, width = 2.5, unit = 'cm') %>% 
+  width(7, width = 1.8, unit = 'cm') %>% 
+  theme_vanilla %>% 
+  footnote(i = 1, j = 6:7, value = as_paragraph('Comparison between the COVID-19 severity strata. Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Vallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
+  footnote(i = 1, j = 1, value = as_paragraph('SMWD: six-minute walking distance.'), ref_symbols = 'b', part = 'body') %>% 
+  footnote(i = 2, j = 1, value = as_paragraph('SMWD: difference between the reference and observed value.'), ref_symbols = 'c', part = 'body') %>% 
+  footnote(i = 3, j = 1, value = as_paragraph('SMWD below the reference value.'), ref_symbols = 'd', part = 'body') %>% 
+  footnote(i = 4:5, j = 1, value = as_paragraph('CFS: 11-item Chalder fatigue score, incr.: increased.'), ref_symbols = 'e', part = 'body') %>% 
+  footnote(i = 6:7, j = 1, value = as_paragraph('VAS: visual analogue scale, imp.: impaired.'), ref_symbols = 'f', part = 'body') %>% 
+  footnote(i = seq(9, 17, by = 2), j = 1, value = as_paragraph('EQ5D5L subscore > 1, imp.: impaired.'), ref_symbols = 'g', part = 'body') %>% 
+  footnote(i = 18:19, j = 1, value = as_paragraph('PSS: 4-item perceived stress scale.'), ref_symbols = 'h', part = 'body') %>% 
+  footnote(i = 20, j = 1, value = as_paragraph('SSD-12: 12-item somatic syndrome disorder – B criteria scale.'), ref_symbols = 'i', part = 'body') %>% 
+  footnote(i = 21:22, j = 1, value = as_paragraph('BRCS: brief resilient coping score.'), ref_symbols = 'j', part = 'body') %>% 
+  font(part = 'all', fontname = 'Cambria') %>% 
+  fontsize(size = 10, part = 'all')
+
+```
+
+
+\newpage
+
+# Figures {#sec:figures}
+
+```{r fig-consort, fig.width = mm_inch(140), fig.height = mm_inch(140), dpi = 600, fig.cap = 'CONSORT flow diagram of the study analysis inclusion (placeholder).'}
+
+ggdraw()
+
+```
+
+__Figure \@ref(fig:fig-consort). CONSORT flow diagram of the study analysis inclusion (placeholder).__
+
+\newpage
+
+```{r fig-symptoms, fig.width = mm_inch(paper_figures$symptoms$w), fig.height = mm_inch(paper_figures$symptoms$h), fig.cap = 'COVID-19 symptom recovery.'}
+
+paper_figures$symptoms$plot
+
+```
+
+__Figure \@ref(fig:fig-symptoms). COVID-19 symptom recovery.__
+
+Presence of COVID-19 symptoms was investigated in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors.
+
+__(A)__ Percentages of individuals with particular symptoms at the 1-year follow-up. Numbers of complete observations are indicated on the plot axis. Point size and color codes for the symptom percentage.
+
+__(B)__ Percentages of individuals with any symptoms during acute COVID-19 and at the 2-, 3-, 6-month and 1-year follow-up. Participants with the complete longitudinal data set were included in the analysis. The recovery was modeled by second-order mixed-effect logistic modeling and likelihood ratio test (full vs null model). P values were corrected for multiple testing with the Benjamini-Hochberg method. Likelihood ratio ($\lambda$), p values and numbers of participants with the complete longitudinal data set are presented in the plot captions.
+
+Chalder FS: Chalder fatigue score.
+
+\newpage
+
+```{r fig-lft, fig.width = mm_inch(paper_figures$lft$w), fig.height = mm_inch(paper_figures$lft$h), fig.cap = 'Functional lung recovery.'}
+
+paper_figures$lft$plot
+
+```
+
+__Figure \@ref(fig:fig-lft). Functional lung recovery.__
+
+Lung function testing (LFT) was performed in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors.
+
+__(A)__ Percentages of individuals with particular LFT abnormalities at the 1-year follow-up. Numbers of complete observations are indicated on the plot axis. Point size and color codes for the abnormality percentage. FEV1: forced expiratory volume in 1 second; FVC: forced vital capacity; DLCO: diffusion lung capacity for carbon monoxide; RV: residual volume, FEV1:FVC: FEV1 to FVC ratio, TLC: total lung capacity.
+
+__(B)__ Percentages of individuals with any LFT abnormality at the 2-, 3-, 6-month and 1-year follow-up. Participants with the complete longitudinal data set were included in the analysis. The recovery was modeled by second-order mixed-effect logistic modeling and likelihood ratio test (full vs null model). P values were corrected for multiple testing with the Benjamini-Hochberg method. Likelihood ratio ($\lambda$), p values and numbers of participants with the complete longitudinal data set are presented in the plot captions.
+
+\newpage
+
+```{r fig-ct, fig.width = mm_inch(paper_figures$ct$w), fig.height = mm_inch(paper_figures$ct$h), fig.cap = 'Radiological lung recovery.'}
+
+paper_figures$ct$plot
+
+```
+
+__Figure \@ref(fig:fig-ct). Radiological lung recovery.__
+
+Chest computed tomography (CT) was performed in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors.
+
+__(A)__ Percentages of individuals with any chest CT abnormality and abnormalities scored > 5 CT severity score points at the 1-year follow-up. Numbers of complete observations are indicated on the plot axis. Point size and color codes for the abnormality percentage.
+
+__(B)__ Percentages of individuals with any chest CT abnormality at the 2-, 3-, 6-month and 1-year follow-up. Participants with the complete longitudinal data set were included in the analysis. The recovery was modeled by second-order mixed-effect logistic modeling and likelihood ratio test (full vs null model). P values were corrected for multiple testing with the Benjamini-Hochberg method. Likelihood ratio ($\lambda$), p values and numbers of participants with the complete longitudinal data set are presented in the plot captions.
+
+\newpage
+
+```{r fig-cardio, fig.width = mm_inch(paper_figures$cardio$w), fig.height = mm_inch(paper_figures$cardio$h), fig.cap = 'Cardiological recovery.'}
+
+paper_figures$cardio$plot
+
+```
+
+__Figure \@ref(fig:fig-cardio). Cardiological recovery.__
+
+Transthoracic echocardiography (TTE) was performed in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors.
+
+__(A)__ Percentages of individuals diagnosed diastolic dysfunction of any severity and reduced ejection fraction (EF) at the 1-year follow-up. Numbers of complete observations are indicated on the plot axis. Point size and color codes for the abnormality percentage.
+
+__(B)__ Percentages of individuals diagnosed diastolic dysfunction at the 2-, 3-, 6-month and 1-year follow-up. Participants with the complete longitudinal data set were included in the analysis. The recovery was modeled by second-order mixed-effect logistic modeling and likelihood ratio test (full vs null model). P values were corrected for multiple testing with the Benjamini-Hochberg method. Likelihood ratio ($\lambda$), p values and numbers of participants with the complete longitudinal data set are presented in the plot captions.
+
+\newpage
+
+```{r fig-correlations, fig.width = mm_inch(paper_figures$correlations$w), fig.height = mm_inch(paper_figures$correlations$h), fig.cap = 'Persistent symptoms and cardiopulmonary abnormalities and mobility, health self-perception, fatigue and mental health scoring scoring.'}
+
+paper_figures$correlations$plot
+
+```
+
+__Figure \@ref(fig:fig-correlations). Persistent symptoms and cardiopulmonary abnormalities and mobility, health self-perception, fatigue and mental health scoring scoring.__
+
+Association of COVID-19 symptoms, cardiopulmonary abnormalities, health self-perception, resilience, fatigue and stress scoring at the 1-year follow-up (__Supplementary Tables S1__ and __S2__) was investigated by pairwise Kendall's $\tau$ correlation test. P values were corrected for multiple testing with the Benjamini-Hochberg method. $\tau$ coefficients for significant correlations are presented. Point size and color codes for the $\tau$ value. The number of complete observations is indicated under the plot.
+
+mMRC: modified medical research council dyspnea scale; #: number of, 
+LFT: lung function testing; 
+DLCO: diffusion lung capacity for carbon monoxide; 
+CT: chest computed tomography; 
+SMWD: six minute walking distance; 
+EQ5DL: European quality of life 5 dimensions; 
+VAS: visual analogue scale; 
+PSS: perceived stress score; 
+CFS: Chalder fatigue score.
+
+\newpage
+
+```{r fig-clusters, fig.width = mm_inch(paper_figures$clusters$w), fig.height = mm_inch(paper_figures$clusters$h), fig.cap = 'Clusters of clinical and psychosocial COVID-19 recovery.'}
+
+paper_figures$clusters$plot
+
+```
+
+__Figure \@ref(fig:fig-clusters). Clusters of clinical and psychosocial COVID-19 recovery.__
+
+Clustering of the study participants in respect to `r length(globals$clust_variables)` binary symptom, cardiopulmonary and psychosocial features recorded at the 1-year follow-up (__Supplementary Table S1__ and __S2__) was investigated by the PAM algorithm (PAM: partitioning around medoids, simple matching distance).
+
+__(A)__ Assignment of the study participants to the recovery clusters. Percentages of variance associated with the UMAP components are presented in the plot axes. Numbers of participants assigned to the clusters are presented next to the plot.
+
+__(B)__ Differences in frequency of the clustering variables between the recovery clusters were investigated by $\chi^2$. P values were corrected for multiple testing with the Benjamini-Hochberg method. Lines represent the estimated percentages of the feature in the cluster, tinted regions represent 2$\times$SEM intervals. Features significantly differing between the clusters are labeled in bold.
+
+imp.: impaired, 
+EQ5DL: European quality of life 5 dimensions; 
+VAS: visual analogue scale;
+CFS: Chalder fatigue score; 
+PSS: perceived stress score; 
+SMWD < ref: six-minute walking distance below the reference value.
+LFT: lung function testing; 
+CT: chest computed tomography.
+
+\newpage
+
+```{r fig-clust-psych, fig.width = mm_inch(paper_figures$clust_psych$w), fig.height = mm_inch(paper_figures$clust_psych$h), fig.cap = 'Quality of life, fatigue and mental health rating in the COVID-19 recovery clusters.'}
+
+paper_figures$clust_psych$plot
+
+```
+
+__Figure \@ref(fig:fig-clust-psych). Quality of life, fatigue and mental health rating in the COVID-19 recovery clusters.__
+
+Quality of life, general health and rating of fatigue, stress, somatic symptom disorder and resilience were assessed at the 1-year follow-up were compared between the COVID-19 recovery clusters (__Figure \@ref(fig:fig-clusters)__, __Supplementary Figure S9__). Statistical significance was determined by Kruskal-Wallis test with $\eta^2$ effect size statistic. P values were corrected for multiple testing with Benjamini-Hochberg method. Effect size statistic and p values are presented in plot captions. Numbers of participants assigned to the clusters are presented under to the plots.
+
+EQ5DL: European quality of life 5 dimensions; 
+VAS: visual analogue scale;
+CFS: Chalder fatigue score; 
+SSD-12: somatic syndrome disorder - B criteria scale; 
+PSS: perceived stress score; 
+BRCS: brief resilient coping scale.
+
+\newpage

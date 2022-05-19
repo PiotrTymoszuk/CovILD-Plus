@@ -1,0 +1,98 @@
+```{r fig-symptoms1, fig.width = 7.086614166, fig.height = 8.267716527, fig.cap = 'Recovery of fatigue, sleep problems and dyspnea.'}
+
+suppl_figures$symptoms1$plot
+
+```
+
+__Figure \@ref(fig:fig-symptoms1). Recovery of fatigue, sleep problems and dyspnea.__
+
+
+
+```{r fig-symptoms2, fig.width = 7.086614166, fig.height = 8.267716527, fig.cap = 'Recovery from night sweating, cough and smell disorders.'}
+
+suppl_figures$symptoms2$plot
+
+```
+
+__Figure \@ref(fig:fig-symptoms2). Recovery from night sweating, cough and smell disorders.__
+
+
+
+```{r fig-lft, fig.width = 7.086614166, fig.height = 8.267716527, fig.cap = 'Changes in FEV1, FVC and DLCO during COVID-19 convalescence.'}
+
+suppl_figures$lft$plot
+
+```
+
+__Figure \@ref(fig:fig-lft). Changes in FEV1, FVC and DLCO during COVID-19 convalescence.__
+
+
+
+```{r fig-correl, fig.width = 7.086614166, fig.height = 7.086614166, fig.cap = 'Correlation of symptom number and dyspnea rating with the scoring of stress, fatigue and daily functioning.'}
+
+suppl_figures$correl$plot
+
+```
+
+__Figure \@ref(fig:fig-correl). Correlation of symptom number and dyspnea rating with the scoring of stress, fatigue and daily functioning.__
+
+
+
+```{r fig-clust-qc, fig.width = 7.086614166, fig.height = 3.93700787, fig.cap = 'Development of COVID-19 recovery clusters.'}
+
+suppl_figures$clust_qc$plot
+
+```
+
+__Figure \@ref(fig:fig-clust-qc). Development of COVID-19 recovery clusters.__
+
+
+
+```{r fig-clust-extra, fig.width = 7.086614166, fig.height = 8.267716527, fig.cap = 'COVID-19 severity, demographic features, physical performance and mobility in the COVID-19 recovery clusters.'}
+
+suppl_figures$clust_extra$plot
+
+```
+
+__Figure \@ref(fig:fig-clust-extra). COVID-19 severity, demographic features, physical performance and mobility in the COVID-19 recovery clusters.__
+
+
+
+```{r fig-sympt-risk, fig.width = 7.086614166, fig.height = 7.87401574, fig.cap = 'Modeling of the persistent symptom risk at the 1-year post-COVID-19 follow-up.'}
+
+suppl_figures$sympt_risk$plot
+
+```
+
+__Figure \@ref(fig:fig-sympt-risk). Modeling of the persistent symptom risk at the 1-year post-COVID-19 follow-up.__
+
+
+
+```{r fig-lft-risk, fig.width = 7.086614166, fig.height = 7.87401574, fig.cap = 'Modeling of the persistent functional lung abnormality at the 1-year post-COVID-19 follow-up.'}
+
+suppl_figures$lft_risk$plot
+
+```
+
+__Figure \@ref(fig:fig-lft-risk). Modeling of the persistent functional lung abnormality at the 1-year post-COVID-19 follow-up.__
+
+
+
+```{r fig-ct-risk, fig.width = 7.086614166, fig.height = 7.87401574, fig.cap = 'Modeling of the persistent radiological lung abnormality at the 1-year post-COVID-19 follow-up.'}
+
+suppl_figures$ct_risk$plot
+
+```
+
+__Figure \@ref(fig:fig-ct-risk). Modeling of the persistent radiological lung abnormality at the 1-year post-COVID-19 follow-up.__
+
+
+
+```{r fig-dysf-risk, fig.width = 7.086614166, fig.height = 7.87401574, fig.cap = 'Modeling of the persistent diastolic dysfunction at the 1-year post-COVID-19 follow-up.'}
+
+suppl_figures$dysf_risk$plot
+
+```
+
+__Figure \@ref(fig:fig-dysf-risk). Modeling of the persistent diastolic dysfunction at the 1-year post-COVID-19 follow-up.__
+
