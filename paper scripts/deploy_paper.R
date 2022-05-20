@@ -6,7 +6,8 @@
   
   insert_msg('Figure chunks')
 
-  insert_figure(paper_figures$symptoms, 
+  insert_figure(paper_figures$consort, 
+                paper_figures$symptoms, 
                 paper_figures$lft, 
                 paper_figures$ct, 
                 paper_figures$cardio, 
@@ -15,7 +16,8 @@
                 paper_figures$clust_psych, 
                 file = './paper/markdown/figure_chunks.Rmd', 
                 ref_names = stri_replace_all(names(paper_figures), fixed = '_', replacement = '-'), 
-                captions = c('COVID-19 symptom recovery.', 
+                captions = c('CONSORT flow diagram of the study analysis inclusion', 
+                             'COVID-19 symptom recovery.', 
                              'Functional lung recovery.', 
                              'Radiological lung recovery.', 
                              'Cardiological recovery.', 
@@ -32,7 +34,6 @@
   insert_figure(suppl_figures$symptoms1, 
                 suppl_figures$symptoms2, 
                 suppl_figures$lft, 
-                suppl_figures$correl, 
                 suppl_figures$clust_qc, 
                 suppl_figures$clust_extra, 
                 suppl_figures$sympt_risk, 
@@ -44,7 +45,6 @@
                 captions = c('Recovery of fatigue, sleep problems and dyspnea.', 
                              'Recovery from night sweating, cough and smell disorders.', 
                              'Changes in FEV1, FVC and DLCO during COVID-19 convalescence.', 
-                             'Correlation of symptom number and dyspnea rating with the scoring of stress, fatigue and daily functioning.', 
                              'Development of COVID-19 recovery clusters.', 
                              'COVID-19 severity, demographic features, physical performance and mobility in the COVID-19 recovery clusters.', 
                              'Modeling of the persistent symptom risk at the 1-year post-COVID-19 follow-up.',

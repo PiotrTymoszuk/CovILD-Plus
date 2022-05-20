@@ -160,7 +160,7 @@
                                      point_color = z, 
                                      outcome_color = z, 
                                      fitted_color = z, 
-                                     y_lab = translate_var(names(x), out_value = 'axis_lab'), 
+                                     y_lab = translate_var(names(x), out_value = 'axis_lab_long'), 
                                      fitted = FALSE) %>% 
            pmap(plot, 
                 cust_theme = globals$common_theme, 

@@ -6,6 +6,16 @@
   
   paper_figures <- list()
   
+# Figure 1: CONSORT plot ------
+  
+  insert_msg('Figure 1: consort plot')
+  
+  paper_figures$consort <- plot_grid(ggdraw() + 
+                                       draw_image('./input data/Consort.png')) %>% 
+    as_figure('figure_1_consort', 
+              w = 90, 
+              h = 110)
+  
 # Figure 2: symptom presence kinetic and particular symptoms at the 1-year FUP ------
   
   insert_msg('Figure 2: symptoms')
@@ -69,10 +79,11 @@
     combine_plots(y_cust_range = c(0, 110), 
                   common_legend = 'hide', 
                   ncol = 2) %>% 
-    plot_grid(plot_grid(prev_sum$plots$ct + 
+    plot_grid(plot_grid(prev_sum$plots$ct +
                           guides(fill = FALSE), 
                         ggdraw(), 
-                        ncol = 2), 
+                        ncol = 2, 
+                        rel_widths = c(0.7, 0.3)), 
               ., 
               nrow = 2, 
               rel_heights = c(0.35, 0.65), 
@@ -119,7 +130,7 @@
   paper_figures$correlations <- paper_figures$correlations %>% 
     as_figure(label = 'figure_6_correlations', 
               w = 180, 
-              h = 180)
+              h = 195)
   
 # Figure 7: recovery clusters --------
   
@@ -211,17 +222,21 @@
                                                    'BRCS')] %>% 
     map(~.x + 
           theme(legend.position = 'none', 
-                plot.title.position = 'plot') + 
+                plot.title.position = 'plot', 
+                plot.subtitle = element_text(hjust = 0.2)) + 
           labs(tag = .x$labels$tag %>% 
                  stri_replace_all(fixed = '\n', replacement = ', ') %>% 
-                 paste0('\n', .))) %>% 
+                 paste0('\n', .), 
+               title = stri_replace(.x$labels$title, 
+                                    regex = '\\(.*\\)', 
+                                    replacement = ''))) %>% 
     plot_grid(plotlist = ., 
               ncol = 3, 
               align = 'hv', 
               axis = 'tblr') %>% 
     as_figure(label = 'figure_8_clust_psychosoc', 
               w = 180, 
-              h = 220)
+              h = 210)
   
 # Saving the figures on the disc -----
   

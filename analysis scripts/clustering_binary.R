@@ -130,7 +130,7 @@
                               dots = list2()) %>% 
     clust_analysis
   
-  ## heat map with the variables significantly differing between the clusters
+  ## heat map with all clustering variables
   
   part_clust$heat_map_ft <- plot_clust_hm(x_object = part_clust$plotting_clust, 
                                           y_object = part_clust$ft_clust, 
@@ -139,7 +139,8 @@
                                           x_lab = 'Participant', 
                                           cust_theme = globals$common_theme, 
                                           discrete_fill = TRUE) + 
-    scale_y_discrete(labels = translate_var(globals$clust_variables)) + 
+    scale_y_discrete(labels = translate_var(globals$clust_variables, 
+                                            out_value = 'label_long')) + 
     scale_fill_manual(values = c('steelblue', 'coral3'), 
                       labels = c('absent', 'present'), 
                       name = '') + 
@@ -183,14 +184,16 @@
                                     'EQ5DL_pain_bi', 
                                     'EQ5DL_mobility_bi', 
                                     'EQ5DL_selfcare_bi')), 
-                     labels = translate_var(globals$clust_variables))
+                     labels = translate_var(globals$clust_variables, 
+                                            out_value = 'label_long'))
   
   part_clust$ribbon_plots$CP <- 
     part_clust$ribbon_plots$CP + 
     scale_y_discrete(limits = rev(c('ct_severity_any', 
                                     'diastolic_dysf', 
                                     'lufo_red')), 
-                     labels = translate_var(globals$clust_variables))
+                     labels = translate_var(globals$clust_variables, 
+                                            out_value = 'label_long'))
   
   part_clust$ribbon_plots$Clinical <- 
     part_clust$ribbon_plots$Clinical + 
@@ -203,7 +206,8 @@
                                     'sleep_sympt', 
                                     'night_sweat_sympt', 
                                     'anosmia_sympt')), 
-                     labels = translate_var(globals$clust_variables))
+                     labels = translate_var(globals$clust_variables, 
+                                            out_value = 'label_long'))
   
 # END -----
   

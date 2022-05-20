@@ -12,6 +12,7 @@
   library(clustTools)
   library(somKernels)
   library(ggrepel)
+  library(stringi)
   
   c('./tools/project_tools.R') %>% 
     source_all(message = TRUE, crash = TRUE)

@@ -98,22 +98,22 @@
   paper_tables$cohort_chara <- paper_tables$cohort_chara %>% 
     mutate(`CovILD cohort` = ifelse(Variable != 'Rehabilitation', 
                                     stri_replace_all(`CovILD cohort`, 
-                                                     regex = '\\ncomplete.*$', 
+                                                     regex = '\\nn.*$', 
                                                      replacement = ''), 
                                     `CovILD cohort`), 
            `Ambulatory COVID-19` = ifelse(Variable != 'Rehabilitation', 
                                           stri_replace_all(`Ambulatory COVID-19`, 
-                                                           regex = '\\ncomplete.*$', 
+                                                           regex = '\\nn.*$', 
                                                            replacement = ''), 
                                           `Ambulatory COVID-19`), 
            `Moderate COVID-19` = ifelse(Variable != 'Rehabilitation', 
                                         stri_replace_all(`Moderate COVID-19`, 
-                                                         regex = '\\ncomplete.*$', 
+                                                         regex = '\\nn.*$', 
                                                          replacement = ''), 
                                         `Moderate COVID-19`), 
            `Severe COVID-19` = ifelse(Variable != 'Rehabilitation', 
                                       stri_replace_all(`Severe COVID-19`, 
-                                                       regex = '\\ncomplete.*$', 
+                                                       regex = '\\nn.*$', 
                                                        replacement = ''), 
                                       `Severe COVID-19`))
   
@@ -179,7 +179,7 @@
                 'Severe', 
                 'Significance', 
                 'Effect size'))
-  
+
 # Supplementary Table S1: study variables -----
   
   insert_msg('Table S1: study variables')
@@ -308,22 +308,22 @@
     mutate(`Cluster #1` = ifelse(!Variable %in% c('Somatic symptom disorder (SSD-12)', 
                                                   'Resilience (BRCS)'), 
                                  stri_replace_all(`Cluster #1`, 
-                                                  regex = '\\ncomplete.*$', 
+                                                  regex = '\\nn.*$', 
                                                   replacement = ''), 
                                  `Cluster #1`), 
            `Cluster #2` = ifelse(!Variable %in% c('Somatic symptom disorder (SSD-12)', 
                                                   'Resilience (BRCS)'), 
                                  stri_replace_all(`Cluster #2`, 
-                                                  regex = '\\ncomplete.*$', 
+                                                  regex = '\\nn.*$', 
                                                   replacement = ''), 
                                  `Cluster #2`), 
            `Cluster #3` = ifelse(!Variable %in% c('Somatic symptom disorder (SSD-12)', 
                                                   'Resilience (BRCS)'), 
                                  stri_replace_all(`Cluster #3`, 
-                                                  regex = '\\ncomplete.*$', 
+                                                  regex = '\\nn.*$', 
                                                   replacement = ''), 
                                  `Cluster #3`))
-  
+
 # Supplementary Table S5: univariate modeling results ------
   
   insert_msg('Table S6: Significant univariate modeling results')

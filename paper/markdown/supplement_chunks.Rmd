@@ -28,16 +28,6 @@ __Figure \@ref(fig:fig-lft). Changes in FEV1, FVC and DLCO during COVID-19 conva
 
 
 
-```{r fig-correl, fig.width = 7.086614166, fig.height = 7.086614166, fig.cap = 'Correlation of symptom number and dyspnea rating with the scoring of stress, fatigue and daily functioning.'}
-
-suppl_figures$correl$plot
-
-```
-
-__Figure \@ref(fig:fig-correl). Correlation of symptom number and dyspnea rating with the scoring of stress, fatigue and daily functioning.__
-
-
-
 ```{r fig-clust-qc, fig.width = 7.086614166, fig.height = 3.93700787, fig.cap = 'Development of COVID-19 recovery clusters.'}
 
 suppl_figures$clust_qc$plot

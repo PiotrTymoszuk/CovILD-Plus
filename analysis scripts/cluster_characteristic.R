@@ -65,7 +65,7 @@
   
   clust_chara$plots <- list(variable = clust_chara$variables$variable, 
                             type = clust_chara$variables$plot_type, 
-                            plot_title = translate_var(clust_chara$variables$variable), 
+                            plot_title = translate_var(clust_chara$variables$variable, out_value = 'label_long'), 
                             plot_subtitle = clust_chara$test_results$plot_cap) %>% 
     pmap(plot_variable, 
          clust_chara$analysis_tbl, 
@@ -75,7 +75,7 @@
     set_names(clust_chara$variables$variable)
   
   clust_chara$plots[clust_chara$num_vars] <- map2(clust_chara$plots[clust_chara$num_vars], 
-                                                  translate_var(clust_chara$num_vars, out_value = 'axis_lab'), 
+                                                  translate_var(clust_chara$num_vars, out_value = 'axis_lab_long'), 
                                                   ~.x + 
                                                     scale_fill_manual(values = globals$clust_colors) + 
                                                     labs(y = .y))
@@ -96,13 +96,13 @@
                                                pub_styled = FALSE) %>% 
     filter(!is.infinite(estimate))
   
-  ## plots: separate ones for the numeric and factor features, top 10 factors labelled
+  ## plots: separate ones for the numeric and factor features, top 10 factors labeled
   
   clust_chara$summary_obj <- c(factor = 'Chi-squared test', 
                                numeric = 'Kruskal-Wallis test') %>% 
     map(~filter(clust_chara$summary_obj, test == .x)) %>% 
     map(mutate, 
-        variable = translate_var(variable)) %>% 
+        variable = translate_var(variable, out_value = 'label_long')) %>% 
     map(~mutate(.x, 
                 plot_lab = ifelse(.x$variable %in% top_n(.x, 10, estimate)$variable, 
                                   variable, 

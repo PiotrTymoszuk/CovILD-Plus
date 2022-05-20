@@ -126,34 +126,9 @@
               w = 180, 
               h = 210)
   
-# Figure S4: selected correlations ------
+# Figure S4: clustering QC ------
   
-  insert_msg('Figure S4: selected correlations')
-  
-  suppl_figures$correl$upper_panel <- correl$sympt_no_plots %>% 
-    map(~.x + theme(plot.tag = element_blank())) %>% 
-    plot_grid(plotlist = ., 
-              align = 'hv', 
-              ncol = 3)
-  
-  suppl_figures$correl$lower_panel <- correl$mmrc_plots %>% 
-    map(~.x + theme(plot.tag = element_blank())) %>% 
-    plot_grid(plotlist = ., 
-              align = 'hv', 
-              ncol = 3)
-  
-  suppl_figures$correl <- plot_grid(suppl_figures$correl$upper_panel, 
-                                    suppl_figures$correl$lower_panel, 
-                                    nrow = 2, 
-                                    labels = LETTERS, 
-                                    label_size = 10) %>% 
-    as_figure(label = 'figure_s4_correlations', 
-              w = 180, 
-              h = 180)
-  
-# Figure S5: clustering QC ------
-  
-  insert_msg('Figure S5: Clustering QC')
+  insert_msg('Figure S4: Clustering QC')
 
   suppl_figures$clust_qc <- plot_grid(cl_devel$test_plot + 
                                         theme(plot.subtitle = element_blank(), 
@@ -166,13 +141,13 @@
                                       axis = 'tblr', 
                                       labels = LETTERS, 
                                       label_size = 10) %>% 
-    as_figure(label = 'figure_s5_cluster_qc', 
+    as_figure(label = 'figure_s4_cluster_qc', 
               w = 180, 
               h = 100)
   
-# Figure S6: other clustering features ------
+# Figure S5: other clustering features ------
   
-  insert_msg('Figure S6: other clustering features')
+  insert_msg('Figure S5: other clustering features')
   
   suppl_figures$clust_extra <- clust_chara$plots[c('cat_WHO', 'sex', 
                                                    'weight_class', 'age', 
@@ -201,13 +176,13 @@
                                          ncol = 2, 
                                          align = 'hv', 
                                          axis = 'tblr') %>% 
-    as_figure(label = 'figure_s6_extra_clust_features', 
+    as_figure(label = 'figure_s5_extra_clust_features', 
               w = 180, 
               h = 210)
 
-# Figure S7 - S10: multivariate modeling -------
+# Figure S6 - S9: multivariate modeling -------
   
-  insert_msg('Figure S7 - 10: multi-modeling')
+  insert_msg('Figure S6 - 9: multi-modeling')
   
   suppl_figures[c('sympt_risk', 
                   'lft_risk', 
@@ -233,10 +208,10 @@
                                                         'lft_risk', 
                                                         'ct_risk', 
                                                         'dysf_risk')], 
-                                        c('figure_s7_symptom_risk', 
-                                          'figure_s8_lft_risk', 
-                                          'figure_s9_ct_risk', 
-                                          'figure_s10_dysf_risk'), 
+                                        c('figure_s6_symptom_risk', 
+                                          'figure_s7_lft_risk', 
+                                          'figure_s8_ct_risk', 
+                                          'figure_s9_dysf_risk'), 
                                         as_figure, 
                                         w = 180, 
                                         h = 200)

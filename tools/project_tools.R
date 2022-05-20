@@ -31,16 +31,18 @@
                         data[[old_var]], 
                         !!!args)
 
-    new_data <- data %>% 
-      mutate(!!ensym(new_var) := eval(trans_call))
-
     if(!is.null(time_var)) {
       
-      return(new_data[c(enexpr(new_var), ID_var, time_var)])
+      data %>% 
+        transmute(!!ID_var := .data[[ID_var]], 
+                  !!new_var := eval(trans_call), 
+                  !!time_var := .data[[time_var]])
       
     } else {
       
-      return(new_data[c(enexpr(new_var), ID_var)])
+      data %>% 
+        transmute(!!ID_var := .data[[ID_var]], 
+                  !!new_var := eval(trans_call))
       
     }
     
@@ -386,7 +388,7 @@
                            high = 'firebrick3', 
                            midpoint = mid_point, 
                            name = '%') + 
-      scale_y_discrete(labels = translate_var(variables)) + 
+      scale_y_discrete(labels = translate_var(variables, out_value = 'label_long')) + 
       globals$common_theme + 
       theme(axis.title = element_blank()) + 
       labs(title = plot_title, 
@@ -414,9 +416,9 @@
       geom_text(aes(label = signif(estimate, 2)), 
                 size = 2.2, 
                 hjust = 0.5,
-                vjust = -1.3) + 
-      scale_x_discrete(limits = translate_var(globals$corr_variables)) + 
-      scale_y_discrete(limits = translate_var(globals$corr_variables)) + 
+                vjust = -1.45) + 
+      scale_x_discrete(limits = translate_var(globals$corr_variables, out_value = 'label_long')) + 
+      scale_y_discrete(limits = translate_var(globals$corr_variables, out_value = 'label_long')) + 
       scale_fill_gradient2(low = 'steelblue3', 
                            mid = 'white', 
                            high = 'firebrick3', 
@@ -498,7 +500,8 @@
   format_summ_tbl <- function(data, 
                               rm_n = TRUE, 
                               rm_mean = TRUE, 
-                              out_value = 'axis_lab') {
+                              rm_complete = TRUE, 
+                              out_value = 'axis_lab_long') {
     
     ## formats a summary table with descriptive stats
     
@@ -523,6 +526,13 @@
       
       data <- data %>% 
         map_dfc(stri_replace, regex = 'mean.*\\n', replacement = '')
+      
+    }
+    
+    if(rm_complete) {
+      
+      data <- data %>% 
+        map_dfc(stri_replace, fixed = 'complete: ', replacement = '')
       
     }
     

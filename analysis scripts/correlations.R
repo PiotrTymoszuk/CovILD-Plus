@@ -61,8 +61,8 @@
   correl$test_results <- correl$test_results %>% 
     map(~map_dfr(.x, ~.x$result) %>% 
           mutate(p_adjusted = p.adjust(p_value, 'BH'), 
-                 var1_label = translate_var(variable1), 
-                 var2_label = translate_var(variable2), 
+                 var1_label = translate_var(variable1, out_value = 'label_long'), 
+                 var2_label = translate_var(variable2, out_value = 'label_long'), 
                  correlation = ifelse(p_adjusted >= 0.05, 'ns', 
                                       ifelse(estimate > 0, 'positive', 'negative')), 
                  plot_cap = paste0('\u03C4 = ', signif(estimate, 2), ', ', significance), 
@@ -98,11 +98,11 @@
   ## symptom number
   
   correl$sympt_no_plots <- list(x = correl$detail_vars, 
-                                y = paste(translate_var(correl$detail_vars), 
+                                y = paste(translate_var(correl$detail_vars, out_value = 'label_long'), 
                                           translate_var('sympt_number'), 
                                           sep = ' vs '), 
                                 z = translate_var(correl$detail_vars, 
-                                                  out_value = 'axis_lab'), 
+                                                  out_value = 'axis_lab_long'), 
                                 cap = filter(correl$test_results$cohort, 
                                              variable1 == 'sympt_number', 
                                              variable2 %in% correl$detail_vars)[['plot_cap']]) %>% 
@@ -128,11 +128,11 @@
   ## mMRC
   
   correl$mmrc_plots <- list(x = correl$detail_vars, 
-                            y = paste(translate_var(correl$detail_vars), 
+                            y = paste(translate_var(correl$detail_vars, out_value = 'label_long'), 
                                       translate_var('mmrc'), 
                                       sep = ' vs '), 
                             z = translate_var(correl$detail_vars, 
-                                              out_value = 'axis_lab'), 
+                                              out_value = 'axis_lab_long'), 
                             cap = filter(correl$test_results$cohort, 
                                          variable1 == 'mmrc', 
                                          variable2 %in% correl$detail_vars)[['plot_cap']]) %>% 

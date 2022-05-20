@@ -132,7 +132,7 @@ suppl_tables$battery %>%
 
 \newpage
 
-```{r tab-clust-clinics, tab.cap = 'Demographic and clinical characteristic of the COVID-19 recovery clusters.'}
+```{r tab-clust-clinics, tab.cap = 'Demographic and clinical characteristics of the COVID-19 recovery clusters.'}
 
 suppl_tables$clust_chara %>% 
   flextable %>% 
@@ -162,8 +162,8 @@ suppl_tables$clust_endpoints %>%
   width(6, width = 2.3, unit = 'cm') %>% 
   theme_vanilla() %>% 
   footnote(i = 1, j = 5:6, value = as_paragraph('Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Vallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
-  footnote(i = 13, j = 1, ref_symbols = 'b', part = 'body', value = as_paragraph('LFT: lung function testing.')) %>% 
-  footnote(i = 14, j = 1, ref_symbols = 'c', part = 'body', value = as_paragraph('CT: computed tomography.')) %>% 
+  footnote(i = 13, j = 1, ref_symbols = 'b', part = 'body', value = as_paragraph('LFT abnormality: abnormality in lung function testing, > 80% predicted value (FEV1: forced expiratory volume in 1 second; FVC: forced vital capacity; DLCO: diffusion lung capacity for carbon monoxide; TLC: total lung capacity) or > 70% predicted value cutoffs (FEV1:FVC: FEV1 to FVC ratio.)')) %>% 
+  footnote(i = 14, j = 1, ref_symbols = 'c', part = 'body', value = as_paragraph('CT abnormality: any abnormality in chest computed tomography, CT severity score \u2265 1.')) %>% 
   font(part = 'all', fontname = 'Cambria') %>% 
   fontsize(size = 10, part = 'all')
 
@@ -181,15 +181,16 @@ suppl_tables$psych_reco %>%
   width(6, width = 2.3, unit = 'cm') %>% 
   theme_vanilla() %>% 
   footnote(i = 1, j = 5:6, value = as_paragraph('Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Vallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
-  footnote(i = 2, j = 1, value = as_paragraph('SMWD: six-minute walking distance.'), ref_symbols = 'b', part = 'body') %>% 
-  footnote(i = 3, j = 1, value = as_paragraph('SMWD: difference between the reference and observed value.'), ref_symbols = 'c', part = 'body') %>% 
-  footnote(i = 4, j = 1, value = as_paragraph('SMWD below the reference value.'), ref_symbols = 'd', part = 'body') %>% 
+  footnote(i = 2, j = 1, value = as_paragraph('SMWD: six-minute walking distance, meters.'), ref_symbols = 'b', part = 'body') %>% 
+  footnote(i = 3, j = 1, value = as_paragraph('SMWD vs ref.: difference between the reference and observed SMWD value, meters.'), ref_symbols = 'c', part = 'body') %>% 
+  footnote(i = 4, j = 1, value = as_paragraph('SMWD < ref.: SMWD below the reference value.'), ref_symbols = 'd', part = 'body') %>% 
   footnote(i = 5:6, j = 1, value = as_paragraph('CFS: 11-item Chalder fatigue score, incr.: increased.'), ref_symbols = 'e', part = 'body') %>% 
   footnote(i = 7:8, j = 1, value = as_paragraph('VAS: visual analogue scale, imp.: impaired.'), ref_symbols = 'f', part = 'body') %>% 
   footnote(i = seq(10, 18, by = 2), j = 1, value = as_paragraph('EQ5D5L subscore > 1, imp.: impaired.'), ref_symbols = 'g', part = 'body') %>% 
   footnote(i = 19:20, j = 1, value = as_paragraph('PSS: 4-item perceived stress scale.'), ref_symbols = 'h', part = 'body') %>% 
   footnote(i = 21, j = 1, value = as_paragraph('SSD-12: 12-item somatic syndrome disorder – B criteria scale.'), ref_symbols = 'i', part = 'body') %>% 
-  footnote(i = 22:23, j = 1, value = as_paragraph('BRCS: brief resilient coping score.'), ref_symbols = 'j', part = 'body') %>%
+  footnote(i = 22, j = 1, value = as_paragraph('BRCS: brief resilient coping score.'), ref_symbols = 'j', part = 'body') %>%
+  footnote(i = 23, j = 1, value = as_paragraph('low: 4 - 13 points, medium: 14 - 16 points, high: 17 - 21 points in the BRCS scale.'), ref_symbols = 'k', part = 'body') %>% 
   font(part = 'all', fontname = 'Cambria') %>% 
   fontsize(size = 10, part = 'all')
 
@@ -255,18 +256,6 @@ FEV1 (forced expiratory volume in 1 second, __A__), FVC (forced vital capacity, 
 
 \newpage
 
-```{r fig-correl, fig.width = mm_inch(suppl_figures$correl$w), fig.height = mm_inch(suppl_figures$correl$h), fig.cap = 'Correlation of symptom number and dyspnea rating with the scoring of stress, fatigue and daily functioning.'}
-
-suppl_figures$correl$plot
-
-```
-
-__Supplementary Figure S\@ref(fig:fig-correl). Correlation of symptom number and dyspnea rating with the scoring of fatigue, self-perceived general health, usual activity impairment and stress.__
-
-Correlations of the self-reported symptom number (# symptoms, __A__) and dyspnea scoring (mMRC: modified medical research council dyspnea scale, __B__) with fatigue scoring (likert 11-item Chalder fatigue score), self-perceived general health (Eq5D5L: European quality of life 5 dimensions, VAS: visual analogue scale), usual impairment rating and stress levels (PSS: perceived stress score) at the 1-year follow-up were assessed by Kendall's correlation test. P values were corrected for multiple testing with Benjamini-Hochberg method. Correlation coefficient values ($\tau$), p values and numbers of complete observations are indicated in the plot captions. Each point represents a single observation, blue lines indicate linear trends.
-
-\newpage
-
 ```{r fig-clust-qc, fig.width = mm_inch(suppl_figures$clust_qc$w), fig.height = mm_inch(suppl_figures$clust_qc$h), fig.cap = 'Development of COVID-19 recovery clusters.'}
 
 suppl_figures$clust_qc$plot
@@ -292,6 +281,8 @@ suppl_figures$clust_extra$plot
 __Supplementary Figure S\@ref(fig:fig-clust-extra). COVID-19 severity, demographic features, physical performance and mobility in the COVID-19 recovery clusters..__
 
 Acute COVID-19 severity, sex and weight class distribution, age at COVID-19 diagnosis as well as physical performance (ECOG: Eastern Cooperative Oncology Group performance status) and six-minute walking distance (SMWD, difference between the observed and reference value at the 1-year follow-up were compared between the COVID-19 recovery clusters (__Figure 7__, __Supplementary Figure S\@ref(fig:fig-clust-qc)__). Statistical significance for numeric values was assessed by Kruskal-Wallis test with $\eta^2$ effect size statistic or by $\chi^2$ test with categorical variables with Cramer V effect size statistic. P values were corrected for multiple testing with Benjamini-Hochberg method. Effect size statistic and p values are presented in plot captions. Numbers of participants assigned to the clusters are presented under the plots.
+
+SMWD vs ref.: six-minute walking distance, observed versus reference value.
 
 \newpage
 

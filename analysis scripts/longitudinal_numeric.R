@@ -139,7 +139,7 @@
                                                           plot_title = paste(subset_name, 
                                                                              translate_var(long_num$acute_vars), 
                                                                              sep = ': '), 
-                                                          y_lab = translate_var(long_num$acute_vars, out_value = 'axis_lab')) %>% 
+                                                          y_lab = translate_var(long_num$acute_vars, out_value = 'axis_lab_long')) %>% 
            pmap(function(plot_var, plot_title, y_lab) plot_kinet(data = complete_cases(sub_set[c('ID', 'time', plot_var)]), 
                                                                  plot_var = plot_var, 
                                                                  time_var = 'time', 
@@ -155,7 +155,7 @@
                          fill_colors = globals$sev_colors) %>% 
     pmap(function(sub_set, subset_name, fill_colors) list(plot_var = long_num$post_vars, 
                                                           plot_title = subset_name, 
-                                                          y_lab = translate_var(long_num$post_vars, out_value = 'axis_lab')) %>% 
+                                                          y_lab = translate_var(long_num$post_vars, out_value = 'axis_lab_long')) %>% 
            pmap(function(plot_var, plot_title, y_lab) plot_kinet(data = complete_cases(sub_set[c('ID', 'time', plot_var)]), 
                                                                  plot_var = plot_var, 
                                                                  time_var = 'time', 

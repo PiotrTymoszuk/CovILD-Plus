@@ -99,7 +99,10 @@
   insert_msg('Reading the variable lexicon')
   
   globals$var_lexicon <- read_excel('./input data/var_lexicon.xlsx') %>% 
-    mutate(axis_lab = ifelse(is.na(unit), label, paste(label, unit, sep = ', ')))
+    mutate(axis_lab = ifelse(is.na(unit), 
+                             label, paste(label, unit, sep = ', ')), 
+           axis_lab_long = ifelse(is.na(unit), 
+                                  label_long, paste(label_long, unit, sep = ', ')))
 
 # setup of the modeling and clustering variables -----
   
