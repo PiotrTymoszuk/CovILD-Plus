@@ -1,5 +1,5 @@
 ---
-title: "CovILD, one-year follow-up"
+title: "COVID-19 and its continuing burden after 12 months: a longitudinal observational prospective multicenter trial"
 subtitle: "Supplementary Material"
 author: "CovILD study team"
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
@@ -269,6 +269,18 @@ Clustering of the study participants in respect to `r length(globals$clust_varia
 __(A)__ Performance comparison of various clustering algorithms and distance measures. Clustering algorithm stability was assessed by the rate of correct cluster assignment in 10-fold cross-validation (CV). Clustering variance is expressed as a ratio of the total between-cluster sum of squares to total sum of squares. Based on the optimal stability, PAM (partitioning around medoids) algorithm with the Manhattan distance statistic was chosen for further analyses.
 
 __(B)__ The total within-cluster sum sum of squares as a function of the cluster number for the PAM/SMD clustering procedure. The optimal cluster number (dashed red line) was set at the bend of the curve.
+
+\newpage
+
+```{r fig-clust-relapse, fig.width = mm_inch(suppl_figures$clust_relapse$w), fig.height = mm_inch(suppl_figures$clust_relapse$h), fig.cap = 'Rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.'}
+
+suppl_figures$clust_relapse$plot
+
+```
+
+__Supplementary Figure S\@ref(fig:fig-clust-relapse). Rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.__
+
+Rates of relapse for particular COVID-19-related symptoms at the 12-month follow-up as compared with the 6-month follow-up were compared between the COVID-19 recovery clusters (__Figure 7__, __Supplementary Figure S\@ref(fig:fig-clust-qc)__) with $\chi^2$ test with Cramer V effect size statistic. Individuals with the complete symptom record for the investigated follow-up were included in the analysis. P values were corrected for multiple testing with Benjamini-Hochberg method. Percentages of the relapsing individuals are presented as a bar plot. Significant differences are highlighted in bold. Effect size statistics and p values for the significant comparisons are indicated in the plot. Numbers of participants assigned to the clusters are presented under the plots.
 
 \newpage
 

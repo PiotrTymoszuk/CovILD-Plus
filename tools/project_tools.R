@@ -2,11 +2,6 @@
 
   require(plyr)
   require(tidyverse)
-  require(caret)
-  require(doParallel)
-  require(randomForest)
-  require(grDevices)
-  require(pcaPP)
   require(rlang)
   require(cowplot)
   require(glue)

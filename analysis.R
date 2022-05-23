@@ -6,13 +6,16 @@
   library(lmerTest)
   library(lmqc)
   library(kinet)
-  library(dplyr)
+  library(plyr)
   library(tidyverse)
   library(rlang)
   library(clustTools)
   library(somKernels)
   library(ggrepel)
   library(stringi)
+  library(glue)
+  library(ggtext)
+  library(figur)
   
   c('./tools/project_tools.R') %>% 
     source_all(message = TRUE, crash = TRUE)
@@ -30,7 +33,9 @@
     './analysis scripts/pca.R', 
     './analysis scripts/cluster_development_binary.R', 
     './analysis scripts/clustering_binary.R', 
-    './analysis scripts/cluster_characteristic.R') %>% 
+    './analysis scripts/cluster_characteristic.R', 
+    './analysis scripts/cluster_relapse.R', 
+    './analysis scripts/cluster_inflammation.R') %>% 
     source_all(message = TRUE, crash = TRUE)
 
   

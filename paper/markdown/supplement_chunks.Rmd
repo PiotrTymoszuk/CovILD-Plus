@@ -38,6 +38,16 @@ __Figure \@ref(fig:fig-clust-qc). Development of COVID-19 recovery clusters.__
 
 
 
+```{r fig-clust-relapse, fig.width = 7.086614166, fig.height = 4.724409444, fig.cap = 'Rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.'}
+
+suppl_figures$clust_relapse$plot
+
+```
+
+__Figure \@ref(fig:fig-clust-relapse). Rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.__
+
+
+
 ```{r fig-clust-extra, fig.width = 7.086614166, fig.height = 8.267716527, fig.cap = 'COVID-19 severity, demographic features, physical performance and mobility in the COVID-19 recovery clusters.'}
 
 suppl_figures$clust_extra$plot

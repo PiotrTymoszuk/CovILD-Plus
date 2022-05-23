@@ -12,6 +12,9 @@
   library(bookdown)
   library(flextable)
   library(writexl)
+  library(glue)
+  library(ggtext)
+  library(readxl)
 
   source_all('./tools/project_tools.R', message = TRUE, crash = TRUE)
 

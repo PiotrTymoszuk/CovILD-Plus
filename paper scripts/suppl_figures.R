@@ -145,9 +145,18 @@
               w = 180, 
               h = 100)
   
+# Figure S5: symptom relapse rates in the clusters -----
+  
+  insert_msg('Figure S5: Symptom relapse rates in the clusters')
+  
+  suppl_figures$clust_relapse <- plot_grid(clust_relapse$relapse_plot) %>% 
+    as_figure(label = 'figure_s5_late_relapse_clusters', 
+              w = 180, 
+              h = 120)
+  
 # Figure S5: other clustering features ------
   
-  insert_msg('Figure S5: other clustering features')
+  insert_msg('Figure S6: other clustering features')
   
   suppl_figures$clust_extra <- clust_chara$plots[c('cat_WHO', 'sex', 
                                                    'weight_class', 'age', 
@@ -176,13 +185,13 @@
                                          ncol = 2, 
                                          align = 'hv', 
                                          axis = 'tblr') %>% 
-    as_figure(label = 'figure_s5_extra_clust_features', 
+    as_figure(label = 'figure_s6_extra_clust_features', 
               w = 180, 
               h = 210)
 
 # Figure S6 - S9: multivariate modeling -------
   
-  insert_msg('Figure S6 - 9: multi-modeling')
+  insert_msg('Figure S7 - 10: multi-modeling')
   
   suppl_figures[c('sympt_risk', 
                   'lft_risk', 
@@ -208,10 +217,10 @@
                                                         'lft_risk', 
                                                         'ct_risk', 
                                                         'dysf_risk')], 
-                                        c('figure_s6_symptom_risk', 
-                                          'figure_s7_lft_risk', 
-                                          'figure_s8_ct_risk', 
-                                          'figure_s9_dysf_risk'), 
+                                        c('figure_s7_symptom_risk', 
+                                          'figure_s8_lft_risk', 
+                                          'figure_s9_ct_risk', 
+                                          'figure_s10_dysf_risk'), 
                                         as_figure, 
                                         w = 180, 
                                         h = 200)

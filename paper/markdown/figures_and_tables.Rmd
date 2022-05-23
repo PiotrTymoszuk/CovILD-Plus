@@ -1,5 +1,5 @@
 ---
-title: "CovILD, one-year follow-up"
+title: "COVID-19 and its continuing burden after 12 months: a longitudinal observational prospective multicenter trial"
 subtitle: "Figures and Tables"
 author: "CovILD study team"
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
