@@ -46,7 +46,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev = "png
 
 ## Data transformation, variable stratification, descriptive statistic
 
-The study variables were transformed, analyzed and visualized with R version 4.0.5 with _tidyverse_ [@Wickham2019; @Wickham2016] and _cowplot_ [@Wilke2019].
+The study variables were transformed, analyzed and visualized with R version 4.2.0 with _tidyverse_ [@Wickham2019; @Wickham2016] and _cowplot_ [@Wilke2019].
 
 Participant age during acute COVID-19 was stratified with the 50 and 65 year cutoffs. 
 Participants were stratified according to the severity of acuet COVID-19 as ambulatory (outpatients), moderate (hospitalized at COVID-19 ward, no mechanical ventilation) and severe (mechanical ventilation and/or intensive care unit stay). 
@@ -295,24 +295,6 @@ __Supplementary Figure S\@ref(fig:fig-clust-extra). COVID-19 severity, demograph
 Acute COVID-19 severity, sex and weight class distribution, age at COVID-19 diagnosis as well as physical performance (ECOG: Eastern Cooperative Oncology Group performance status) and six-minute walking distance (SMWD, difference between the observed and reference value at the 1-year follow-up were compared between the COVID-19 recovery clusters (__Figure 7__, __Supplementary Figure S\@ref(fig:fig-clust-qc)__). Statistical significance for numeric values was assessed by Kruskal-Wallis test with $\eta^2$ effect size statistic or by $\chi^2$ test with categorical variables with Cramer V effect size statistic. P values were corrected for multiple testing with Benjamini-Hochberg method. Effect size statistic and p values are presented in plot captions. Numbers of participants assigned to the clusters are presented under the plots.
 
 SMWD vs ref.: six-minute walking distance, observed versus reference value.
-
-\newpage
-
-```{r fig-sympt-risk, fig.width = mm_inch(suppl_figures$sympt_risk$w), fig.height = mm_inch(suppl_figures$sympt_risk$h), fig.cap = 'Modeling of the persistent symptom risk at the 1-year post-COVID-19 follow-up.'}
-
-suppl_figures$sympt_risk$plot
-
-```
-
-__Supplementary Figure S\@ref(fig:fig-sympt-risk). Modeling of the persistent symptom risk at the 1-year post-COVID-19 follow-up.__
-
-The risk of persistent COVID-19 symptoms at the 1-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with symptoms are presented in __A__.
-
-__(A)__ Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor).
-
-__(B)__ Performance of the LASSO model at predicting the presence of symptoms at the 1-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared (Rsq) and Cohen's kappa statistic values are shown in the plot captions.
-
-NT-proBNP: N-terminal pro - brain natriuretic peptide; GID: gastrointestinal disease; #: number of; HM: hospitalized moderate COVID-19; IL6: interleukin 6.
 
 \newpage
 
