@@ -1,0 +1,114 @@
+---
+title: "COVID-19 and its continuing burden after 12 months: a longitudinal observational prospective multicenter trial"
+subtitle: "Figures for Editor"
+author: "CovILD study team"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+
+output: 
+  bookdown::word_document2:   
+    reference_docx: ms_template.docx
+    
+bibliography: cov_biblio.bib
+csl: frontiers-in-immunology.csl
+header-includes:
+  \usepackage{longtable}
+  \usepackage{tabu}
+  \usepackage{caption}
+  \usepackage{makecell}
+  \usepackage{pdflscape}
+  \usepackage{array}
+  \usepackage{booktabs}
+  \usepackage{threeparttable}
+  \usepackage{threeparttablex}
+  \usepackage{wrapfig}
+  \usepackage{multirow}
+  \usepackage[normalem]{ulem}
+  \usepackage{colortbl}
+  \usepackage{xcolor}
+  \usepackage{float} \floatplacement{figure}{H} \floatplacement{table}{H}
+  \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}}       \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+---
+
+```{r, setup, include = FALSE}
+
+library(bookdown)
+
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev = "png", dpi = 600)
+
+
+```
+
+\newpage
+
+```{r fig-uni-mod-rsq1, fig.width = mm_inch(suppl_figures$uni_mod_rsq1$w), fig.height = mm_inch(suppl_figures$uni_mod_rsq1$h), fig.cap = 'Fractions of persistent symptom and LFT abnormality risk variance explained by independent variables.'}
+
+suppl_figures$uni_mod_rsq1$plot
+
+```
+
+__Figure E\@ref(fig:fig-uni-mod-rsq1). Fractions of persistent symptom and LFT abnormality risk variance explained by independent variables.__ 
+Association of basic demographic parameters (age, sex, smoking history), co-morbidities, acute COVID-19 severity and acute symptoms and laboratory parameters recorded at the 60-day follow-up with the risk of persistent symptoms (__A__) or lung function testing (LFT) abnormality (__B__) at the one-year follow-up was investigated by univariate logistic modeling (__Supplementary Table S\@ref(tab:tab-uni-mod)__). Unadjusted $R^2$ statistic as a measure of risk variance explained by the independent variable was calculated for each model. Top 20 largest $R^2$ values are presented in bar plots. $R^2$ effect size was defined as none ($\leq$ 0.01), weak (0.01 - 0.09), moderate (0.09 - 0.25) and large (> 0.25). Effect size limits are depicted as dashed lines.
+
+anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; 
+NT-proBNP: N-terminal pro-brain natriuretic peptide; 
+IL6: interleukin 6; #: number of.
+
+\newpage
+
+```{r fig-uni-mod-rsq2, fig.width = mm_inch(suppl_figures$uni_mod_rsq2$w), fig.height = mm_inch(suppl_figures$uni_mod_rsq2$h), fig.cap = 'Fractions of CT abnormality and diastolic dysfunction risk variance explained by independent variables.'}
+
+suppl_figures$uni_mod_rsq2$plot
+
+```
+
+__Figure E\@ref(fig:fig-uni-mod-rsq2). Fractions of CT abnormality and diastolic dysfunction risk variance explained by independent variables.__ 
+Association of basic demographic parameters (age, sex, smoking history), co-morbidities, acute COVID-19 severity and acute symptoms and laboratory parameters recorded at the 60-day follow-up with the risk of lung CT abnormality (__A__) or diastolic dysfunction (__B__) at the one-year follow-up was investigated by univariate logistic modeling (__Supplementary Table S\@ref(tab:tab-uni-mod)__). Unadjusted $R^2$ statistic as a measure of risk variance explained by the independent variable was calculated for each model. Top 20 largest $R^2$ values are presented in bar plots. $R^2$ effect size was defined as none ($\leq$ 0.01), weak (0.01 - 0.09), moderate (0.09 - 0.25) and large (> 0.25). Effect size limits are depicted as dashed lines.
+
+anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; 
+NT-proBNP: N-terminal pro-brain natriuretic peptide; 
+CRP: C-reactive protein; 
+IL6: interleukin 6; #: number of;
+FT: ferritin;
+CVD: cardiovascular disease; 
+CKD: chronic kidney disease; 
+GID: gastrointestinal disease.
+
+\newpage
+
+```{r fig-overlap1, fig.width = mm_inch(suppl_figures$phys_mental_recovery1$w), fig.height = mm_inch(suppl_figures$phys_mental_recovery1$h), fig.cap = 'Impact of persistent symptoms and LFT abnormality on physical and mental recovery from COVID-19.'}
+
+suppl_figures$phys_mental_recovery1$plot
+
+```
+
+__Figure E\@ref(fig:fig-overlap1). Impact of persistent symptoms and LFT abnormality on physical and mental recovery from COVID-19.__ 
+Rating of physical recovery (fatigue and six-minute walking distance/SMWD), self-perceived general health, daily functioning and mental health was compared between participants with or without persistent symptoms (A) and with or without lung function testing (LFT) abnormalities (B) at the one-year follow-up. Statistical significance was assessed by Mann-Whitney U test corrected for multiple testing with Benjamini-Hochberg method. Normalized (Z score) mean rating values with 2$\times$SEM are presented in radial plots. Numbers of complete observations are indicated under the plots.
+
+SMWD vs ref.: six minute walking distance, difference versus the reference value; 
+EQ5DL: European quality of life 5 dimensions; 
+VAS: visual analogue scale; 
+PSS: perceived stress score; 
+CFS: Chalder fatigue score; 
+BRCS: brief resilient coping scale; 
+SSD: somatic symptom disorder; 
+imp.: impairment.
+
+\newpage
+
+```{r fig-overlap2, fig.width = mm_inch(suppl_figures$phys_mental_recovery2$w), fig.height = mm_inch(suppl_figures$phys_mental_recovery2$h), fig.cap = 'Impact of lung CT and cardiological abnormality on physical and mental recovery from COVID-19.'}
+
+suppl_figures$phys_mental_recovery2$plot
+
+```
+
+__Figure E\@ref(fig:fig-overlap2). Impact of lung CT and cardiological abnormality on physical and mental recovery from COVID-19.__ 
+Rating of physical recovery (fatigue and six-minute walking distance/SMWD), self-perceived general health, daily functioning and mental health was compared between participants with or without lung CT abnormality (A) and with or without diastolic dysfunction (B) at the one-year follow-up. Statistical significance was assessed by Mann-Whitney U test corrected for multiple testing with Benjamini-Hochberg method. Normalized (Z score) mean rating values with 2$\times$SEM are presented in radial plots. Numbers of complete observations are indicated under the plots.
+
+SMWD vs ref.: six minute walking distance, difference versus the reference value; 
+EQ5DL: European quality of life 5 dimensions; 
+VAS: visual analogue scale; 
+PSS: perceived stress score; 
+CFS: Chalder fatigue score; 
+BRCS: brief resilient coping scale; 
+SSD: somatic symptom disorder, 
+imp.: impairment.

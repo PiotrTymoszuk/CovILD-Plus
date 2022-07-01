@@ -115,7 +115,10 @@
                                       stri_replace_all(`Severe COVID-19`, 
                                                        regex = '\\nn.*$', 
                                                        replacement = ''), 
-                                      `Severe COVID-19`))
+                                      `Severe COVID-19`)) %>% 
+    as_mdtable(label = 'cohort_characteristic', 
+               ref_name = 'cohort', 
+               caption = 'Baseline characteristics of the study cohort and the COVID-19 severity groups.')
   
 # Table 2: study end points ------
   
@@ -149,7 +152,10 @@
                 'Moderate COVID-19', 
                 'Severe COVID-19', 
                 'Significance', 
-                'Effect size'))
+                'Effect size')) %>% 
+    as_mdtable(label = 'endpoints', 
+               ref_name = 'enpoints', 
+               caption = 'Key outcome measures of participants according to COVID-19 severity groups.')
   
 # Table 3: psychosocial recovery in the cohort -----
   
@@ -178,7 +184,10 @@
                 'Moderate', 
                 'Severe', 
                 'Significance', 
-                'Effect size'))
+                'Effect size')) %>% 
+    as_mdtable(label = 'psych_recovery', 
+               ref_name = 'psych-reco', 
+               caption = '12-month sub-maximal exercise performance and mental health across COVID-19 severity groups.')
 
 # Supplementary Table S1: study variables -----
   
@@ -209,13 +218,19 @@
                 'Clustering variable'))
   
   suppl_tables$study_vars <- suppl_tables$study_vars %>% 
-    arrange(`Collection time points`)
+    arrange(`Collection time points`) %>% 
+    as_mdtable(label = 'study_vars', 
+               ref_name = 'study-vars', 
+               caption = 'Study variables.')
 
 # Supplementary Table S2: assessment battery ------
   
   insert_msg('Table S2: assessment battery')
   
-  suppl_tables$battery <- read_excel('./input data/psychosoc_ass_battery.xlsx')
+  suppl_tables$battery <- read_excel('./input data/psychosoc_ass_battery.xlsx') %>% 
+    as_mdtable(label = 'battery', 
+               ref_name = 'battery', 
+               caption = 'Physical performance, fatigue, quality of life, psychosocial and mental health assessment battery.')
   
 # Supplementary Table S3: characteristic of the clusters ------
   
@@ -244,7 +259,10 @@
                 'Cluster #3', 
                 'Significance', 
                 'Effect size')) %>% 
-    mutate(Variable = stri_replace(Variable, fixed = ', %', replacement = ''))
+    mutate(Variable = stri_replace(Variable, fixed = ', %', replacement = '')) %>% 
+    as_mdtable(label = 'clust_chara', 
+               ref_name = 'clust-clinics',
+               caption = 'Demographic and clinical characteristics of the COVID-19 recovery clusters.')
   
 # Supplementary Table S4: clinical and cardiopulmonary recovery in the clusters -----
   
@@ -272,7 +290,10 @@
                 'Cluster #2', 
                 'Cluster #3', 
                 'Significance', 
-                'Effect size'))
+                'Effect size')) %>% 
+    as_mdtable(label = 'clust_endpoints', 
+               ref_name = 'clust-clin-reco', 
+               caption = 'Symptoms and cardiopulmonary abnormalities at the 1-year follow-up in the COVID-19 recovery clusters.')
   
 # Supplementary Table S5: psychosocial and performance recovery in the clusters -----
   
@@ -322,9 +343,12 @@
                                  stri_replace_all(`Cluster #3`, 
                                                   regex = '\\nn.*$', 
                                                   replacement = ''), 
-                                 `Cluster #3`))
+                                 `Cluster #3`)) %>% 
+    as_mdtable(label = 'psych_reco', 
+               ref_name = 'clust-psych-reco', 
+               caption = 'Mobility, physical performance and psychosocial rating at the 1-year follow-up in the COVID-19 recovery clusters.')
 
-# Supplementary Table S5: univariate modeling results ------
+# Supplementary Table S6: univariate modeling results ------
   
   insert_msg('Table S6: Significant univariate modeling results')
   
@@ -342,7 +366,12 @@
     re_adjust('none') %>% 
     mutate(variable = paste(variable, ref_code, sep = ', ')) %>% 
     select(response, variable, reference, level, n, n_complete, estimate, significance) %>% 
-    set_names(c('Response', 'Independent variable', 'Reference', 'Level', 'N level', 'N total', 'OR, 95% CI', 'Significance'))
+    set_names(c('Response', 'Independent variable', 'Reference', 
+                'Level', 'N level', 'N total', 
+                'OR, 95% CI', 'Significance')) %>% 
+    as_mdtable(label = 'uni_mod', 
+               ref_name = 'uni-mod', 
+               caption = 'Significant results of univariable modeling of the risk of symptom presence, lung function abnormalities, radiological chest abnormalities and diastolic dysfunction at the 1-year follow-up.')
 
 # saving the tables on the disc ----
   

@@ -1,11 +1,11 @@
 # A medley of functional project tools
 
-  require(plyr)
-  require(tidyverse)
-  require(rlang)
-  require(cowplot)
-  require(glue)
-  require(ggtext)
+  library(plyr)
+  library(tidyverse)
+  library(rlang)
+  library(cowplot)
+  library(glue)
+  library(ggtext)
   
 # data import and transformation -----
   
@@ -202,7 +202,7 @@
     } else if(common_legend == 'yes') {
       
       return(plot_list %>% 
-               map(function(x) x + theme(legend.position = 'none')) %>% 
+               map(~.x + theme(legend.position = 'none')) %>% 
                plot_grid(plotlist = ., ...) %>% 
                plot_grid(., 
                          get_legend(plot_list[[1]]), 
@@ -212,7 +212,7 @@
     } else {
       
       return(plot_list %>% 
-               map(function(x) x + theme(legend.position = 'none')) %>% 
+               map(~.x + theme(legend.position = 'none')) %>% 
                plot_grid(plotlist = ., ...))
       
     }
@@ -376,7 +376,7 @@
                 size = 2.75, 
                 hjust = 0.5, 
                 vjust = -1.4) + 
-      guides(size = FALSE) + 
+      guides(size = 'none') + 
       scale_x_discrete(labels = ax_labs) + 
       scale_fill_gradient2(low = 'steelblue3', 
                            mid = 'white', 
@@ -418,7 +418,7 @@
                            mid = 'white', 
                            high = 'firebrick3', 
                            midpoint = 0) +
-      guides(size = FALSE) + 
+      guides(size = 'none') + 
       globals$common_theme + 
       theme(axis.title = element_blank(),
             axis.text.x = element_text(angle = 90, 

@@ -17,6 +17,11 @@
   uni_mod$variables <- globals$mod_features %>% 
     filter(response == 'no') %>% 
     .$variable
+  
+  uni_mod$plot_titles <- c('CT abnormality, 1 year', 
+                           'LFT abnormality, 1 year', 
+                           'Diastolic dysfunction, 1 year', 
+                           'Symptoms present, 1 year')
 
 # serial modeling -------
   
@@ -58,13 +63,19 @@
   ## assumptions
   
   uni_mod$assumptions <- uni_mod$models %>% 
-    map(~map_dfr(.x, summary, type = 'assumptions'))
+    map(~map2_dfr(.x, names(.x), 
+                  ~summary(.x, type = 'assumptions') %>% 
+                    mutate(variable = .y))) %>% 
+    map2(., names(.), ~mutate(.x, response = .y))
   
   ## fit stats
   
   uni_mod$fit_stats <- uni_mod$models %>% 
     map(~map_dfr(.x, summary, type = 'fit') %>% 
-          mutate(variable = uni_mod$variables))
+          mutate(variable = uni_mod$variables, 
+                 rsq_size = cut(raw_rsq, 
+                                c(-Inf, 0.01, 0.09, 0.25, Inf), 
+                                c('none', 'small', 'moderate', 'large'))))
   
 # Identification of the significant factors ------
   
@@ -89,14 +100,45 @@
         level = ifelse(level == 'yes', 'present', level))
   
   uni_mod$forest_plots <- list(x = uni_mod$forest_plots, 
-                               plot_title = c('CT abnormality, 1 year', 
-                                              'LFT abnormality, 1 year', 
-                                              'Diastolic dysfunction, 1 year', 
-                                              'Symptoms present, 1 year')) %>% 
+                               plot_title = uni_mod$plot_titles) %>% 
     pmap(safely(plot_forest), 
          cust_theme = globals$common_theme, 
-         x_lab = 'OR, 95% CI') %>% 
+         x_lab = 'OR, 95% CI', 
+         cutpoint = 1) %>% 
     map(~.x$result)
+  
+# plotting of R-squares ------
+  
+  insert_msg('R squared plots')
+  
+  uni_mod$rsq_plots <- map2(map(uni_mod$fit_stats, 
+                                top_n, n = 20, raw_rsq), 
+                            uni_mod$plot_titles, 
+                            ~ggplot(.x, 
+                                    aes(x = raw_rsq, 
+                                        y = reorder(variable, raw_rsq), 
+                                        fill = rsq_size)) + 
+                              geom_bar(stat = 'identity', 
+                                       color = 'black') + 
+                              geom_vline(xintercept = 0.01, 
+                                         linetype = 'dashed') + 
+                              geom_vline(xintercept = 0.09, 
+                                         linetype = 'dashed') + 
+                              geom_vline(xintercept = 0.25, 
+                                         linetype = 'dashed') + 
+                              scale_fill_manual(values = c(none = 'gray60', 
+                                                           small = 'cornsilk', 
+                                                           moderate = 'coral3', 
+                                                           large = 'firebrick4'), 
+                                                name = 'Effect size') + 
+                              scale_y_discrete(labels = translate_var(uni_mod$variables, 
+                                                                      dict = globals$mod_features)) + 
+                              expand_limits(x = 0.45) + 
+                              globals$common_theme + 
+                              theme(axis.title.y = element_blank()) + 
+                              labs(title = .y, 
+                                   subtitle = 'top 20 highest R\u00B2', 
+                                   x = expression('unadjusted R'^2)))
   
 # END -----
   

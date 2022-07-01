@@ -14,7 +14,9 @@
                                        draw_image('./input data/Consort.png')) %>% 
     as_figure('figure_1_consort', 
               w = 90, 
-              h = 110)
+              h = 110, 
+              ref_name = 'consort', 
+              caption = 'CONSORT flow diagram of the study analysis inclusion')
   
 # Figure 2: symptom presence kinetic and particular symptoms at the 1-year FUP ------
   
@@ -29,7 +31,7 @@
                   common_legend = 'hide', 
                   ncol = 1) %>% 
     plot_grid(plot_grid(prev_sum$plots$symptoms + 
-                          guides(fill = FALSE), 
+                          guides(fill = 'none'), 
                         ggdraw(), 
                         nrow = 2, 
                         rel_heights = c(0.85, 0.15)), 
@@ -40,7 +42,9 @@
               label_size = 10) %>% 
     as_figure(label = 'figure_2_symptoms', 
               w = 180, 
-              h = 210)
+              h = 210, 
+              ref_name = 'symptoms', 
+              caption = 'COVID-19 symptom recovery.')
   
 # Figure 3: LFT abnormalities kinetic and particular LFT features at the 1-year FUP ------
   
@@ -55,7 +59,7 @@
                   common_legend = 'hide', 
                   ncol = 1) %>%
     plot_grid(plot_grid(prev_sum$plots$pulmo + 
-                          guides(fill = FALSE), 
+                          guides(fill = 'none'), 
                         ggdraw(), 
                         nrow = 2, 
                         rel_heights = c(0.5, 0.5)), 
@@ -65,7 +69,9 @@
               label_size = 10) %>% 
     as_figure(label = 'figure_3_lft', 
               w = 180, 
-              h = 210)
+              h = 210, 
+              ref_name = 'lft', 
+              caption = 'Functional lung recovery.')
   
 # Figure 4: CT recovery-------
   
@@ -80,7 +86,7 @@
                   common_legend = 'hide', 
                   ncol = 2) %>% 
     plot_grid(plot_grid(prev_sum$plots$ct +
-                          guides(fill = FALSE), 
+                          guides(fill = 'none'), 
                         ggdraw(), 
                         ncol = 2, 
                         rel_widths = c(0.7, 0.3)), 
@@ -91,7 +97,9 @@
               label_size = 10) %>% 
     as_figure(label = 'figure_4_ct', 
               w = 180, 
-              h = 180)
+              h = 180, 
+              ref_name = 'ct', 
+              caption = 'Radiological lung recovery.')
   
 # Figure 5: Cardio recovery -------
   
@@ -106,7 +114,7 @@
                   common_legend = 'hide', 
                   ncol = 2) %>% 
     plot_grid(plot_grid(prev_sum$plots$cardio + 
-                          guides(fill = FALSE), 
+                          guides(fill = 'none'), 
                         ggdraw(), 
                         ncol = 2), 
               ., 
@@ -116,7 +124,9 @@
               label_size = 10) %>% 
     as_figure(label = 'figure_5_cardio', 
               w = 180, 
-              h = 180)
+              h = 180, 
+              ref_name = 'cardio', 
+              caption = 'Cardiological recovery.')
   
 # Figure 6: correlations ------  
   
@@ -130,7 +140,9 @@
   paper_figures$correlations <- paper_figures$correlations %>% 
     as_figure(label = 'figure_6_correlations', 
               w = 180, 
-              h = 195)
+              h = 195, 
+              ref_name = 'correlations', 
+              caption = 'Persistent symptoms and cardiopulmonary abnormalities and mobility, health self-perception, fatigue and stress scoring.')
   
 # Figure 7: recovery clusters --------
   
@@ -206,7 +218,9 @@
                                       rel_heights = c(0.4, 0.6)) %>% 
     as_figure(label = 'figure_7_clusters', 
               w = 180, 
-              h = 220)
+              h = 220, 
+              ref_name = 'clusters', 
+              caption = 'Clusters of clinical and psychosocial COVID-19 recovery.')
   
 # Figure 8: psychosocial recovery in the clusters -----
   
@@ -236,16 +250,19 @@
               axis = 'tblr') %>% 
     as_figure(label = 'figure_8_clust_psychosoc', 
               w = 180, 
-              h = 210)
+              h = 210, 
+              ref_name = 'clust_psych', 
+              caption = 'Quality of life, fatigue and mental health rating in the COVID-19 recovery clusters.')
   
 # Saving the figures on the disc -----
   
   insert_msg('Saving the figures on the disc')
   
   paper_figures %>% 
-    walk(save_figure, 
+    walk(pickle, 
          path = './paper/figures', 
-         device = cairo_pdf)
+         format = 'eps', 
+         device = cairo_ps)
   
 # END -----
   
