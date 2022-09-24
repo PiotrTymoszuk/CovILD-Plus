@@ -17,8 +17,12 @@
   
   insert_msg('Sourcing the exploration scripts')
   
-  c('./exploration scripts/fixed_variables.R', 
-    './exploration scripts/long_variables.R') %>% 
+  c('./exploration scripts/visit_dataes.R', 
+    './exploration scripts/fixed_variables.R', 
+    './exploration scripts/long_variables.R', 
+    './exploration scripts/drop_out_base.R', 
+    './exploration scripts/drop_out_course.R', 
+    './exploration scripts/steroid_base.R') %>% 
     source_all(message = TRUE, crash = TRUE)
   
 # END -----

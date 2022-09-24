@@ -18,10 +18,10 @@
     filter(response == 'no') %>% 
     .$variable
   
-  uni_mod$plot_titles <- c('CT abnormality, 1 year', 
-                           'LFT abnormality, 1 year', 
-                           'Diastolic dysfunction, 1 year', 
-                           'Symptoms present, 1 year')
+  uni_mod$plot_titles <- c('CT abnormality, one-year follow-up', 
+                           'LFT abnormality, one-year follow-up', 
+                           'Diastolic dysfunction, one-year follow-up', 
+                           'Symptoms present, one-year follow-up')
 
 # serial modeling -------
   

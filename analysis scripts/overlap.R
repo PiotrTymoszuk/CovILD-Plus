@@ -156,13 +156,18 @@
          scale = 'width', 
          point_alpha = 0.05, 
          x_lab = 'Z score') %>% 
-    map(~.x + 
+    map2(., 
+         c('Persistent\nsymptoms', 
+           'LFT\nabnormality', 
+           'CT\nabnormality', 
+           'Diastolic\ndysfunction'), 
+         ~.x + 
            scale_fill_manual(values = c('steelblue', 'coral3'), 
                              labels = c('absent', 'present'), 
-                             name = 'Feature') + 
+                             name = .y) + 
            scale_color_manual(values = c('steelblue', 'coral3'), 
                               labels = c('absent', 'present'),  
-                              name = 'Feature')) %>% 
+                              name = .y)) %>% 
     map2(., 
          overlap$var_lexicons, 
          ~.x + 

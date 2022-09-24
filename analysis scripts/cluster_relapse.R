@@ -18,6 +18,11 @@
                                'night_sweat_sympt', 
                                'gastro_sympt', 
                                'anosmia_sympt')
+  
+  clust_relapse$var_labs <- clust_relapse$variables %>% 
+    translate_var %>% 
+    stri_replace(fixed = ' (', replacement = '\n(') %>% 
+    set_names(clust_relapse$variables)
 
   clust_relapse$analysis_tbl <- cov_data$data_tbl %>% 
     filter(time %in% c(3, 4)) %>% 
@@ -121,13 +126,10 @@
               hjust = -0.4) + 
     scale_fill_manual(values = globals$clust_colors, 
                       name = 'Recovery\ncluster') + 
-    scale_y_discrete(labels = function(x) embolden_scale(x, 
-                                                         highlight = 'dyspnoe_sympt', 
-                                                         translate = TRUE)) + 
+    scale_y_discrete(labels = clust_relapse$var_labs) + 
     expand_limits(x = 40) + 
     globals$common_theme + 
-    theme(axis.title.y = element_blank(), 
-          axis.text.y = element_markdown()) + 
+    theme(axis.title.y = element_blank()) + 
     labs(title = 'Late symptom relapse rate', 
          subtitle = '12- vs 6-month follow-up', 
          x = '% of cluster', 

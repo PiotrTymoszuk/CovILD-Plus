@@ -1,0 +1,127 @@
+---
+title: "COVID-19 and its continuing burden after 12 months: a longitudinal observational prospective multicenter trial"
+subtitle: "Tables and Figures for Reviewers"
+author: "CovILD study team"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+
+output: 
+  bookdown::word_document2:   
+    reference_docx: ms_template.docx
+    
+bibliography: cov_biblio.bib
+csl: erj.csl
+header-includes:
+  \usepackage{longtable}
+  \usepackage{tabu}
+  \usepackage{caption}
+  \usepackage{makecell}
+  \usepackage{pdflscape}
+  \usepackage{array}
+  \usepackage{booktabs}
+  \usepackage{threeparttable}
+  \usepackage{threeparttablex}
+  \usepackage{wrapfig}
+  \usepackage{multirow}
+  \usepackage[normalem]{ulem}
+  \usepackage{colortbl}
+  \usepackage{xcolor}
+  \usepackage{float} \floatplacement{figure}{H} \floatplacement{table}{H}
+  \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}}       \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+---
+
+```{r, setup, include = FALSE}
+
+library(bookdown)
+
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE, 
+                      dev = "png", 
+                      dpi = 600)
+
+set_flextable_defaults(font.family = 'Cambria', 
+                       font.size = 10)
+
+
+```
+
+\newpage
+
+# Tables for Reviewers
+
+```{r tab-steroid-base, tab.cap = 'Significant and near-significant (p < 0.1) differences in baseline demographic and clinical characteristic of participants with and without post-acute steroid therapy.'}
+
+flextable::flextable(rev_tables$steroid_base) %>% 
+  width(1, width = 3.9, unit = 'cm') %>% 
+  width(2:3, width = 4.5, unit = 'cm') %>% 
+  width(4, width = 2.6, unit = 'cm') %>% 
+  width(5, width = 2, unit = 'cm') %>% 
+  footnote(i = 1, j = 4:5, value = as_paragraph('Comparison between participants with and without post-acute steroid therapy. Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Wallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
+  footnote(i = 4, j = 1, value = as_paragraph('Body mass index (BMI); overweight > 25 kg/m\u00B2, obesity > 30 kg/m\u00B2'), ref_symbols = 'b', part = 'body') %>% 
+  theme_vanilla
+
+```
+
+\newpage
+
+# Figures for Reviewers
+
+```{r fig-clust, fig.width = mm_inch(rev_figures$clust$w), fig.height = mm_inch(rev_figures$clust$h), fig.cap = 'Clustering factor importance and frequency of lung CT abnormalities in ambulatory, moderate and severe COVID-19 patients in the recovery clusters.'}
+
+rev_figures$clust$plot
+
+```
+
+__Figure for Reviewers \@ref(fig:fig-clust). Clustering factor importance and frequency of lung CT abnormalities in ambulatory, moderate and severe COVID-19 patients in the recovery clusters.__ 
+
+_(A) Permutation importance of factors employed for definition of the COVID-19 recovery clusters was determined by  by calculating differences in clustering variances (ratio of the between-cluster sum of squares to the total sum of square) of the original clustering structure with clustering objects generated with the particular clustering factors re-shuffled randomly ($\Delta$ clustering variance). Results for 100 random permutations (runs) are presented. Each point represents a separate run. Box plots represent median differences in clustering variance with interquartile ranges (IQR). whiskers span over 150% IQR._
+
+_(B) Frequencies of any lung computed tomography (CT) abnormality at the one-year follow-up in ambulatory, moderate and severe COVID-19 patients assigned to the COVID-19 recovery clusters #1, #3 and #3. Percentages of complete observations in each cluster are presented in bar plots. Numbers of complete observations are indicated in the Y axis._
+
+\newpage
+
+```{r fig-steroid-symptoms, fig.width = mm_inch(rev_figures$steroid_symptoms$w), fig.height = mm_inch(rev_figures$steroid_symptoms$h), fig.cap = 'Post-acute steroid therapy of moderate and severe COVID-19 and persistent symptoms at the one-year follow-up.'}
+
+rev_figures$steroid_symptoms$plot
+
+```
+
+__Figure for Reviewers \@ref(fig:fig-steroid-symptoms). Post-acute steroid therapy of moderate and severe COVID-19 and persistent symptoms at the one-year follow-up.__ 
+
+_Frequencies of persistent COVID-19 symptoms at the one-year follow-up (reduced physical performance defined by ECOG $\geq$ [Eastern Cooperative Oncology Group], fatigue defined by bimodal CFS $\geq$ 4 [Chalder's Fatigue Score], dyspnea defined as mMRC $\geq$ 1 [Modified Medical Research Council] and self-reported sleep problems, cough, night sweating, gastrointestinal symptoms, hyposmia/anosmia, and dermatological symptoms) in moderate (A) and severe (B) COVID-19 patients with and without post-acute steroid treatment. Statistical significance was determined by $\chi^2$ test corrected for multiple testing with Benjamini-Hochberg method. None of the effects was found to be significant. Percentages of complete observations within the steroid treatment strata are presented in stack plots. Numbers of complete observations in the steroid treatment strata are indicated under the plots._
+
+\newpage
+
+```{r fig-steroid-lufo, fig.width = mm_inch(rev_figures$steroid_lufo$w), fig.height = mm_inch(rev_figures$steroid_lufo$w), fig.cap = 'Post-acute steroid therapy of moderate and severe COVID-19 and LFT abnormalities at the one-year follow-up.'}
+
+rev_figures$steroid_lufo$plot
+
+```
+
+__Figure for Reviewers \@ref(fig:fig-steroid-lufo). Post-acute steroid therapy of moderate and severe COVID-19 and LFT abnormalities at the one-year follow-up.__ 
+
+_Frequencies of lung function testing (LFT) abnormalities at the one-year follow-up (any LFT abnormality, forced vital capacity [FVC] < 80% predicted, Forced Expiratory Pressure in 1 Second [FEV1] < 80% predicted, FEV1 to FVC ratio [FEV1:FVC] < 80% predicted, total lung capacity [TLC] < 80% predicted, diffusion lung capacity for carbon monoxide [DLCO] < 80%) in moderate (A) and severe (B) COVID-19 patients with and without post-acute steroid treatment. Statistical significance was determined by $\chi^2$ test corrected for multiple testing with Benjamini-Hochberg method. None of the effects was found to be significant. Percentages of complete observations within the steroid treatment strata are presented in stack plots. Numbers of complete observations in the steroid treatment strata are indicated under the plots._
+
+\newpage
+
+```{r fig-steroid-ct, fig.width = mm_inch(rev_figures$steroid_ct$w), fig.height = mm_inch(rev_figures$steroid_ct$h), fig.cap = 'Post-acute steroid therapy of moderate and severe COVID-19 and lung CT abnormalities at the one-year follow-up.'}
+
+rev_figures$steroid_ct$plot
+
+```
+
+__Figure for Reviewers \@ref(fig:fig-steroid-ct). Post-acute steroid therapy of moderate and severe COVID-19 and lung CT abnormalities at the one-year follow-up.__ 
+
+_Frequencies of any lung computed tomography (CT) abnormality (CT severity score $\geq$ 1) and moderate-to-severe lung CT abnormality (CT severity score > 5)  at the one-year follow-up in moderate (A) and severe (B) COVID-19 patients with and without post-acute steroid treatment. Statistical significance was determined by $\chi^2$ test corrected for multiple testing with Benjamini-Hochberg method. None of the effects was found to be significant. Percentages of complete observations within the steroid treatment strata are presented in stack plots. Numbers of complete observations in the steroid treatment strata are indicated under the plots._
+
+\newpage
+
+```{r fig-steroid-cluster, fig.width = mm_inch(rev_figures$steroid_cluster$w), fig.height = mm_inch(rev_figures$steroid_cluster$h), fig.cap = 'Frequency of post-acute steroid therapy in the COVID-19 recovery clusters.'}
+
+rev_figures$steroid_cluster$plot
+
+```
+
+__Figure for Reviewers \@ref(fig:fig-steroid-cluster). Frequency of post-acute steroid therapy in the COVID-19 recovery clusters.__ 
+
+_Percentages of participants with post-acute steroid therapy in the COVID-19 recovery clusters are presented in a stack plot. Statistical significance was assessed by $\chi^2$ test with Cramer V effect size statistic. Effect size statistic and p value are displayed in the plot caption. Numbers of participants assigned to the recovery clusters are indicated under the plot._

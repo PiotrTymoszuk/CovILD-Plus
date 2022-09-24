@@ -18,6 +18,7 @@
   
   prev_visits <- list()
   year_visit <- list()
+  dates <- list()
   
   cov_data <- list()
   globals <- list()
@@ -158,7 +159,9 @@
   globals$mod_features <- read_excel('./input data/modeling_features.xlsx') %>% 
     mutate(label = translate_var(variable), 
            ref_code = car::recode(reference, 
-                                  "0 = 'acute COVID-19'; 1 = '60-day FUP'; 4 = '1-year FUP'"), 
+                                  "0 = 'acute COVID-19'; 
+                                  1 = '2-month FUP'; 
+                                  4 = '1-year FUP'"), 
            label = paste(label, ref_code, sep = '\n'))
   
 # data till visit 6 -----
@@ -167,11 +170,13 @@
   
   ## reading the excel data
   
-  prev_visits$prev_visits <- read_excel('./input data/Covid_V0bisV2_tc_271220.xlsx')
+  prev_visits$prev_visits <- 
+    read_excel('./input data/Covid_V0bisV2_tc_271220.xlsx')
   
   ## new patient classification
   
-  prev_visits$sev_class <- read_excel('./input data/CovILD V3.xlsx', sheet = 'demographics') %>% 
+  prev_visits$sev_class <- read_excel('./input data/CovILD V3.xlsx', 
+                                      sheet = 'demographics') %>% 
     select(ID, WHO, cat_WHO, Reha) %>% 
     mutate(cat_WHO = car::recode(cat_WHO, 
                                  "'hospitalized,mild' = 'HM'; 
@@ -307,7 +312,9 @@
   
   insert_msg('Joining the data sets')
   
-  cov_data$data_tbl <- outer_rbind(prev_visits, year_visit) %>% 
+  cov_data$raw_data <- outer_rbind(prev_visits, year_visit)
+  
+  cov_data$data_tbl <- cov_data$raw_data %>% 
     filter(ID %in% cov_data$year_complete)
   
 # additional wrangling tasks: time re-coding, setting up the constant variables ------
@@ -405,11 +412,66 @@
     select(ID, all_of(globals$clust_variables)) %>% 
     filter(complete.cases(.))
   
+# A table with visit dates ------
+  
+  insert_msg('Visit date table')
+  
+  ## follow-ups 0, 2, 4 and 6 months
+  
+  dates$prev_visits <- 
+    read_excel('./input data/Covid_V0bisV2_tc_271220.xlsx') %>% 
+    filter(time == 0) %>% 
+    select(ID, 
+           diagnosis, 
+           first_symptoms, 
+           datehosp, 
+           dateV0, 
+           dateV1, 
+           dateV2) %>% 
+    transmute(ID = ID, 
+              cov_diagnosis = as.Date(as.numeric(diagnosis), 
+                                      origin = '1900-01-01'), 
+              cov_symptoms = as.Date(as.numeric(first_symptoms), 
+                                     origin = '1900-01-01'), 
+              hospitalization = as.Date(as.numeric(datehosp), 
+                                        origin = '1900-01-01'), 
+              mo2_fup = as.Date(as.numeric(dateV0), 
+                                origin = '1900-01-01'), 
+              mo3_fup = as.Date(as.numeric(dateV1), 
+                                origin = '1900-01-01'), 
+              mo6_fup = as.Date(as.numeric(dateV2), 
+                                origin = '1900-01-01'))
+  
+  ## the year visit dates
+  
+  dates$year_visit <- 
+    read_excel('./input data/CovILD V3.xlsx', sheet = 'demographics') %>% 
+    select(ID, V3) %>% 
+    transmute(ID = ID, 
+              year_fup = as.Date(V3, 
+                                 origin = '1900-01-01'))
+  
+  ## merging and calculating the differences
+  
+  cov_data$dates <- left_join(dates$prev_visits, 
+                              dates$year_visit, 
+                              by = 'ID') %>% 
+    mutate(mo2_fup_delta_diagno = mo2_fup - cov_diagnosis, 
+           mo3_fup_delta_diagno = mo3_fup - cov_diagnosis, 
+           mo6_fup_delta_diagno = mo6_fup - cov_diagnosis, 
+           year_fup_delta_diagno = year_fup - cov_diagnosis) %>% 
+    mutate(mo0_fup_delta_sympt = cov_diagnosis - cov_symptoms, 
+           mo2_fup_delta_sympt = mo2_fup - cov_symptoms, 
+           mo3_fup_delta_sympt = mo3_fup - cov_symptoms, 
+           mo6_fup_delta_sympt = mo6_fup - cov_symptoms, 
+           year_fup_delta_sympt = year_fup - cov_symptoms)
+  
 # END -----
   
   rm(prev_visits, 
      year_visit, 
      i, 
-     constants)
+     constants, 
+     dates)
   
   insert_tail()

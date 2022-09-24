@@ -4,6 +4,7 @@
 
   library(exda)
   library(soucer)
+  library(plyr)
   library(tidyverse)
   library(figur)
   library(cowplot)
@@ -15,6 +16,8 @@
   library(glue)
   library(ggtext)
   library(readxl)
+  library(clustTools)
+  library(stringi)
 
   source_all('./tools/project_tools.R', message = TRUE, crash = TRUE)
 
@@ -24,9 +27,10 @@
   
   insert_msg('Executing the paper scripts')
   
-  c('./paper scripts/paper_tables.R',
+  c('./paper scripts/reviewer_figures.R', 
+    './paper scripts/paper_tables.R',
     './paper scripts/paper_figures.R', 
-    './paper scripts/suppl_figures.R', 
+    './paper scripts/suppl_figures.R',  
     './paper scripts/deploy_paper.R') %>% 
     source_all(message = TRUE, crash = TRUE)
 

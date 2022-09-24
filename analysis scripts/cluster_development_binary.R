@@ -111,7 +111,15 @@
                                               pattern = '.', 
                                               simplify = TRUE)[, 2], 
                              sep = ', '), 
-           algorithm = stri_replace(algorithm, fixed = '.', replacement = ', ')) %>% 
+           algorithm = stri_replace(algorithm, 
+                                    fixed = '.', 
+                                    replacement = ', '), 
+           algorithm = stri_replace(algorithm, 
+                                    fixed = 'smc', 
+                                    replacement = 'SMD'), 
+           algorithm = stri_replace(algorithm, 
+                                    fixed = 'tanimoto', 
+                                    replacement = 'Tanimoto')) %>% 
     ggplot(aes(x = value, 
                y = reorder(algorithm, value), 
                fill = stat)) + 

@@ -159,7 +159,9 @@
                          paste0(var_lab, '/item'), 
                          var_lab), 
         var_lab = paste(var_lab, 
-                        translate_var(variable, out_value = 'ref_code', dict = globals$mod_features), 
+                        translate_var(variable, 
+                                      out_value = 'ref_code', 
+                                      dict = globals$mod_features), 
                         sep = '\n'), 
         regulation = ifelse(s1 < 0, 'negative', 'positive'))
   
@@ -197,19 +199,20 @@
                     vjust = -1.4) + 
           scale_fill_manual(values = c('negative' = 'steelblue', 
                                        'positive' = 'indianred3')) + 
-          guides(size = FALSE, 
-                 fill = FALSE) + 
+          guides(size = 'none', 
+                 fill = 'none') + 
           globals$common_theme + 
           theme(axis.title.y = element_blank()))
   
   ## plot adjustment
   
-  multi_mod$forest_plots <- list(plot = multi_mod$forest_plots, 
-                                 plot_title = c('CT abnormality, 1 year', 
-                                                'LFT abnormality, 1 year', 
-                                                'Diastolic dysfunction, 1 year', 
-                                                'Symptoms present, 1 year'), 
-                                 n = map(multi_mod$analysis_tbl, nrow)) %>% 
+  multi_mod$forest_plots <- 
+    list(plot = multi_mod$forest_plots, 
+         plot_title = c('CT abnormality, one-year follow-up', 
+                        'LFT abnormality, one-year follow-up', 
+                        'Diastolic dysfunction, one-year follow-up', 
+                        'Symptoms present, one-year follow-up'), 
+         n = map(multi_mod$analysis_tbl, nrow)) %>% 
     pmap(function(plot, plot_title, n) plot + 
            labs(title = plot_title, 
                 x = expression('OR'[LASSO]), 
@@ -221,21 +224,27 @@
   
   insert_msg('ROC plots')
 
-  multi_mod$roc_plots <- list(x = multi_mod$models, 
-                              line_color = c('firebrick4', 
-                                             'coral3', 
-                                             'steelblue3', 
-                                             'darkolivegreen4'), 
-                              plot_title = c('CT abnormality, 1 year', 
-                                             'LFT abnormality, 1 year', 
-                                             'Diastolic dysfunction, 1 year', 
-                                             'Symptoms present, 1 year')) %>% 
+  multi_mod$roc_plots <- 
+    list(x = multi_mod$models, 
+         line_color = c('firebrick4', 
+                        'coral3', 
+                        'steelblue3', 
+                        'darkolivegreen4'), 
+         plot_title = c('CT abnormality, one-year follow-up', 
+                        'LFT abnormality, one-year follow-up', 
+                        'Diastolic dysfunction, one-year follow-up', 
+                        'Symptoms present, one-year follow-up')) %>% 
     pmap(plot, 
          type = 'roc', 
          cust_theme = globals$common_theme, 
          labels = FALSE, 
          point_size = 0, 
-         annotation_x = 0.45)
+         annotation_x = 0.45) %>% 
+    map(~map(.x, 
+             ~.x + 
+               labs(subtitle = .x$labels$subtitle %>% 
+                      stri_replace(fixed = 'sq', replacement = '\u00B2') %>% 
+                      stri_replace(fixed = 'Kappa', replacement = '\u03BA'))))
   
 # END -----
   

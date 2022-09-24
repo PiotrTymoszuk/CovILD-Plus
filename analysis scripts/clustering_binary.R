@@ -31,6 +31,15 @@
                         c('ID', 'clust_id')), 
               by = 'ID') %>% 
     as_tibble
+  
+  ## numbers of observations in the clusters
+  
+  part_clust$clust_n <- ngroups(part_clust$clust_obj)
+  
+  part_clust$clust_n <- map2_chr(part_clust$clust_n[[1]], 
+                                 part_clust$clust_n[[2]], 
+                                 paste, sep = ': n = ') %>% 
+    set_names(part_clust$clust_n[[1]])
 
 # Characteristic of the clustering object: diagnostic plots, PCA score and UMAP plots -----
   
@@ -69,7 +78,7 @@
     scale_fill_manual(values = globals$clust_colors, 
                       name = 'Participant\ncluster')
 
-# Comparing the clustering features between the clusters: Kruskal-Wallis test ------
+# Comparing the clustering features between the clusters: chi-squared test ------
   
   insert_msg('Comparing the clustering feature levels between the clusters')
   
@@ -85,14 +94,25 @@
   
   ## testing for the differences
   
-  part_clust$clust_test_results <- compare_variables(part_clust$analysis_tbl, 
-                                                     split_factor = 'clust_id', 
-                                                     variables = globals$clust_variables, 
-                                                     what = 'test', 
-                                                     types = 'chisq_test', 
-                                                     ci = FALSE, 
-                                                     pub_styled = TRUE, 
-                                                     adj_method = 'BH')
+  part_clust$clust_test_results <- 
+    compare_variables(part_clust$analysis_tbl, 
+                      split_factor = 'clust_id', 
+                      variables = globals$clust_variables, 
+                      what = 'test', 
+                      types = 'chisq_test', 
+                      ci = FALSE, 
+                      pub_styled = TRUE, 
+                      adj_method = 'BH')
+  
+  ## labels for the ribbon plots with the significance
+  
+  part_clust$ribbon_labs <- part_clust$clust_test_results %>% 
+    mutate(plot_lab = translate_var(variable, out_value = 'label_long'), 
+           plot_lab = stri_replace(plot_lab, fixed = ' (', replacement = '\n('), 
+           plot_lab = paste(plot_lab, significance, sep = '\n'))
+  
+  part_clust$ribbon_labs <- set_names(part_clust$ribbon_labs$plot_lab, 
+                                      part_clust$ribbon_labs$variable)
   
   ## significant items
   
@@ -150,12 +170,13 @@
   
   insert_msg('Ribbon plots of the clustering features')
 
-  part_clust$ribbon_plots <- list(variables = dlply(part_clust$ft_clust$clust_assignment, 
-                                                    'clust_id', 
-                                                    function(x) x$observation), 
-                                  plot_title = c('Cardiopulmonary recovery', 
-                                                 'Clinical recovery', 
-                                                 'Psychosocial recovery')) %>% 
+  part_clust$ribbon_plots <- 
+    list(variables = dlply(part_clust$ft_clust$clust_assignment, 
+                           'clust_id', 
+                           function(x) x$observation), 
+         plot_title = c('Cardiopulmonary findings', 
+                        'Symptoms and physical performance', 
+                        'QoL, mental health and usual activity')) %>% 
     pmap(draw_stat_panel, 
          data = part_clust$analysis_tbl, 
          split_factor = 'clust_id', 
@@ -166,10 +187,13 @@
          x_lab = expression('% of cluster, '*''%+-%''*'2SE'), 
          cust_theme = globals$common_theme) %>% 
     map(~.x + 
-          theme(axis.title.y = element_blank()) + 
+          theme(axis.title.y = element_blank(), 
+                plot.title.position = 'plot') + 
           scale_fill_manual(values = globals$clust_colors, 
+                            labels = part_clust$clust_n, 
                             name = 'Recovery cluster') + 
           scale_color_manual(values = globals$clust_colors, 
+                             labels = part_clust$clust_n, 
                              name = 'Recovery cluster') + 
           scale_x_continuous(labels = function(x) scales::percent(x, suffix = '')))
   
@@ -184,30 +208,67 @@
                                     'EQ5DL_pain_bi', 
                                     'EQ5DL_mobility_bi', 
                                     'EQ5DL_selfcare_bi')), 
-                     labels = translate_var(globals$clust_variables, 
-                                            out_value = 'label_long'))
+                     labels = part_clust$ribbon_labs)
   
   part_clust$ribbon_plots$CP <- 
     part_clust$ribbon_plots$CP + 
     scale_y_discrete(limits = rev(c('ct_severity_any', 
                                     'diastolic_dysf', 
                                     'lufo_red')), 
-                     labels = translate_var(globals$clust_variables, 
-                                            out_value = 'label_long'))
+                     labels = part_clust$ribbon_labs)
   
   part_clust$ribbon_plots$Clinical <- 
     part_clust$ribbon_plots$Clinical + 
     scale_y_discrete(limits = rev(c('smwd_low', 
                                     'sympt_present', 
-                                    'dyspnoe_sympt', 
-                                    'cough_sympt', 
                                     'fatigue_sympt', 
                                     'Chalder_FS_bimodal', 
                                     'sleep_sympt', 
+                                    'dyspnoe_sympt',
+                                    'cough_sympt', 
                                     'night_sweat_sympt', 
                                     'anosmia_sympt')), 
-                     labels = translate_var(globals$clust_variables, 
-                                            out_value = 'label_long'))
+                     labels = part_clust$ribbon_labs)
+  
+# Permutation importance of the clustering factors -----
+  
+  insert_msg('Permutation importance of clustering factors')
+  
+  set.seed(1234)
+  
+  ## importance table
+  
+  plan('multisession')
+  
+  part_clust$importance_tbl <- sample(1:1000, size = 100, replace = FALSE) %>% 
+    set_names(paste0('run_', 1:100)) %>% 
+    future_map(~impact(part_clust$clust_obj, seed = .x), 
+               .options = furrr_options(seed = TRUE)) %>% 
+    map2_dfr(., names(.), ~mutate(.x, run = .y))
+  
+  plan('sequential')
+  
+  ## plotting
+  
+  part_clust$importance_plot <- part_clust$importance_tbl %>% 
+    filter(variable != 'data') %>% 
+    mutate(variable = translate_var(variable)) %>% 
+    ggplot(aes(x = frac_diff, 
+               y = reorder(variable, frac_diff))) +
+    geom_vline(xintercept = 0, 
+               linetype = 'dashed') + 
+    geom_boxplot(fill = 'steelblue', 
+                 outlier.color = NA, 
+                 alpha = 0.25) + 
+    geom_point(shape = 16, 
+               color = 'black', 
+               alpha = 0.15, 
+               position = position_jitter(height = 0.1, width = 0)) + 
+    globals$common_theme + 
+    theme(axis.title.y = element_blank()) + 
+    labs(title = 'Permutation importance of clustering variables',
+         subtitle = '100 runs', 
+         x = expression(Delta * ' clustering variance'))
   
 # END -----
   

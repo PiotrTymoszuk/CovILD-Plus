@@ -17,6 +17,7 @@
                                'cardiovascular_comorb', 'pulmonary_comorb', 
                                'malingancy_comorb', 'immdef_comorb', 
                                'ckd_comorb', 'gastro_comorb', 
+                               'treat_steroids', 
                                'rehabilitation')
   
   paper_tables$clin_vars <- c('sympt_present', 
@@ -118,7 +119,7 @@
                                       `Severe COVID-19`)) %>% 
     as_mdtable(label = 'cohort_characteristic', 
                ref_name = 'cohort', 
-               caption = 'Baseline characteristics of the study cohort and the COVID-19 severity groups.')
+               caption = 'Baseline characteristics, post-acute steroid therapy and rehabilitation status of the study cohort and the COVID-19 severity groups.')
   
 # Table 2: study end points ------
   
@@ -155,7 +156,7 @@
                 'Effect size')) %>% 
     as_mdtable(label = 'endpoints', 
                ref_name = 'enpoints', 
-               caption = 'Key outcome measures of participants according to COVID-19 severity groups.')
+               caption = 'Key outcome measures at the one-year follow-up in the study cohort and the COVID-19 severity groups.')
   
 # Table 3: psychosocial recovery in the cohort -----
   
@@ -187,7 +188,7 @@
                 'Effect size')) %>% 
     as_mdtable(label = 'psych_recovery', 
                ref_name = 'psych-reco', 
-               caption = '12-month sub-maximal exercise performance and mental health across COVID-19 severity groups.')
+               caption = 'Physical performance, fatigue, self-perceived general health, quality of life and mental health readouts at the one-year follow-up in the study cohort and the COVID-19 severity groups.')
 
 # Supplementary Table S1: study variables -----
   
@@ -220,24 +221,20 @@
   suppl_tables$study_vars <- suppl_tables$study_vars %>% 
     arrange(`Collection time points`) %>% 
     as_mdtable(label = 'study_vars', 
-               ref_name = 'study-vars', 
+               ref_name = 'study_vars', 
                caption = 'Study variables.')
 
-# Supplementary Table S2: assessment battery ------
+# Supplementary Table S2: baseline characteristic of the clusters ------
   
-  insert_msg('Table S2: assessment battery')
+  insert_msg('Table S2: cluster comparison')
   
-  suppl_tables$battery <- read_excel('./input data/psychosoc_ass_battery.xlsx') %>% 
-    as_mdtable(label = 'battery', 
-               ref_name = 'battery', 
-               caption = 'Physical performance, fatigue, quality of life, psychosocial and mental health assessment battery.')
-  
-# Supplementary Table S3: characteristic of the clusters ------
-  
-  insert_msg('Table S3: cluster comparison')
+  ## redundant features: age, sex, severity and weight class are removed
+  ## since they were presented already in the figures
   
   suppl_tables$clust_chara <- clust_chara[c('desc_stats', 'test_results')] %>% 
-    map(filter, variable %in% c(paper_tables$chara_vars, 'cat_WHO')) %>% 
+    map(filter, 
+        variable %in% c(paper_tables$chara_vars), 
+        !variable %in% c('cat_WHO', 'sex', 'age', 'weight_class')) %>% 
     reduce(left_join, by = 'variable') %>% 
     select(variable, starts_with('clust'), significance, eff_size) %>% 
     mutate(variable = factor(variable, 
@@ -261,19 +258,34 @@
                 'Effect size')) %>% 
     mutate(Variable = stri_replace(Variable, fixed = ', %', replacement = '')) %>% 
     as_mdtable(label = 'clust_chara', 
-               ref_name = 'clust-clinics',
-               caption = 'Demographic and clinical characteristics of the COVID-19 recovery clusters.')
+               ref_name = 'clust_base',
+               caption = 'Extended baseline characteristics, post-acute steroid therapy and rehabilitation status of the COVID-19 recovery clusters.')
   
-# Supplementary Table S4: clinical and cardiopulmonary recovery in the clusters -----
+# Supplementary Table S3: one-year characteristic of the clusters -----
   
-  insert_msg('Table S4: cariopulmonary recovery in the clusters')
+  insert_msg('Table S3: one-year characteristic of the clusters')
   
-  suppl_tables$clust_endpoints <- clust_chara[c('desc_stats', 'test_results')] %>% 
+  suppl_tables$clust_fup <- 
+    clust_chara[c('desc_stats', 'test_results')] %>% 
     map(filter, 
-        variable %in% paper_tables$clin_vars) %>% 
+        variable %in% c('sympt_number', 
+                        'hair_loss_sympt', 
+                        'derma_sympt', 
+                        'ct_severity_score', 
+                        'smwd', 
+                        'EQ5DL_mobility', 
+                        'EQ5DL_selfcare')) %>% 
     reduce(left_join, by = 'variable') %>% 
     select(variable, starts_with('clust'), significance, eff_size) %>% 
-    mutate(variable = factor(variable, levels = paper_tables$clin_vars)) %>% 
+    mutate(variable = factor(variable, 
+                             levels = c('sympt_number', 
+                                        'hair_loss_sympt', 
+                                        'derma_sympt', 
+                                        'ct_severity_score', 
+                                        'smwd', 
+                                        'smwd_dref', 
+                                        'EQ5DL_mobility', 
+                                        'EQ5DL_selfcare'))) %>% 
     arrange(variable) %>% 
     format_summ_tbl %>% 
     rbind(tibble(variable = 'N number', 
@@ -292,86 +304,8 @@
                 'Significance', 
                 'Effect size')) %>% 
     as_mdtable(label = 'clust_endpoints', 
-               ref_name = 'clust-clin-reco', 
-               caption = 'Symptoms and cardiopulmonary abnormalities at the 1-year follow-up in the COVID-19 recovery clusters.')
-  
-# Supplementary Table S5: psychosocial and performance recovery in the clusters -----
-  
-  insert_msg('Table S5: psychosocial and performance recovery in the clusters')
-  
-  suppl_tables$psych_reco <- clust_chara[c('desc_stats', 'test_results')] %>% 
-    map(filter, variable %in% paper_tables$reco_vars) %>% 
-    reduce(left_join, by = 'variable') %>% 
-    select(variable, starts_with('clust'), significance, eff_size) %>% 
-    mutate(variable = factor(variable, levels = paper_tables$reco_vars)) %>% 
-    arrange(variable) %>% 
-    format_summ_tbl(rm_n = FALSE) %>% 
-    rbind(tibble(variable = 'N number', 
-                 clust_1 = paper_tables$clust_n$n[1], 
-                 clust_2 = paper_tables$clust_n$n[2], 
-                 clust_3 = paper_tables$clust_n$n[3], 
-                 significance = NA, 
-                 eff_size = NA), .) %>% 
-    mutate(variable = stri_replace(variable, 
-                                   fixed = ', %', 
-                                   replacement = '')) %>% 
-    set_names(c('Variable', 
-                'Cluster #1', 
-                'Cluster #2', 
-                'Cluster #3', 
-                'Significance', 
-                'Effect size'))
-  
-  ## removing the redundant n numbers, only for BRCS and SSD12, there are some
-  ## NA's
-  
-  suppl_tables$psych_reco <- suppl_tables$psych_reco %>% 
-    mutate(`Cluster #1` = ifelse(!Variable %in% c('Somatic symptom disorder (SSD-12)', 
-                                                  'Resilience (BRCS)'), 
-                                 stri_replace_all(`Cluster #1`, 
-                                                  regex = '\\nn.*$', 
-                                                  replacement = ''), 
-                                 `Cluster #1`), 
-           `Cluster #2` = ifelse(!Variable %in% c('Somatic symptom disorder (SSD-12)', 
-                                                  'Resilience (BRCS)'), 
-                                 stri_replace_all(`Cluster #2`, 
-                                                  regex = '\\nn.*$', 
-                                                  replacement = ''), 
-                                 `Cluster #2`), 
-           `Cluster #3` = ifelse(!Variable %in% c('Somatic symptom disorder (SSD-12)', 
-                                                  'Resilience (BRCS)'), 
-                                 stri_replace_all(`Cluster #3`, 
-                                                  regex = '\\nn.*$', 
-                                                  replacement = ''), 
-                                 `Cluster #3`)) %>% 
-    as_mdtable(label = 'psych_reco', 
-               ref_name = 'clust-psych-reco', 
-               caption = 'Mobility, physical performance and psychosocial rating at the 1-year follow-up in the COVID-19 recovery clusters.')
-
-# Supplementary Table S6: univariate modeling results ------
-  
-  insert_msg('Table S6: Significant univariate modeling results')
-  
-  suppl_tables$uni_mod <- map2_dfr(uni_mod$summary, 
-                                   uni_mod$signif_fct, 
-                                   ~filter(.x, variable %in% .y)) %>% 
-    left_join(paper_tables$mod_references, by = 'variable') %>% 
-    mutate(method = ifelse(family == 'binomial', 'logistic', 'linear'), 
-           response = paste0(translate_var(response), ', 1 year FUP'), 
-           variable = translate_var(variable), 
-           estimate = paste0(signif(estimate, 2), ' [', signif(lower_ci, 2), ' - ', signif(upper_ci, 2), ']'), 
-           level = ifelse(is.na(level), 'per item', level), 
-           level = ifelse(level %in% c('HM', 'HS', 'A'), globals$sev_labels[level], level), 
-           reference = ifelse(reference %in% c('HM', 'HS', 'A'), globals$sev_labels[reference], reference)) %>% 
-    re_adjust('none') %>% 
-    mutate(variable = paste(variable, ref_code, sep = ', ')) %>% 
-    select(response, variable, reference, level, n, n_complete, estimate, significance) %>% 
-    set_names(c('Response', 'Independent variable', 'Reference', 
-                'Level', 'N level', 'N total', 
-                'OR, 95% CI', 'Significance')) %>% 
-    as_mdtable(label = 'uni_mod', 
-               ref_name = 'uni-mod', 
-               caption = 'Significant results of univariable modeling of the risk of symptom presence, lung function abnormalities, radiological chest abnormalities and diastolic dysfunction at the 1-year follow-up.')
+               ref_name = 'clust_fup', 
+               caption = 'Extended characteristic of the COVID-19 recovery clusters at the one-year follow-up.')
 
 # saving the tables on the disc ----
   
@@ -388,6 +322,9 @@
     set_names(paste0('Table ', 
                      1:length(paper_tables))) %>% 
     write_xlsx(path = './paper/tables.xlsx')
+  
+  suppl_tables$study_vars %>% 
+    write_xlsx('./paper/supplementary_table_s1.xlsx')
     
   
 # END -----

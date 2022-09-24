@@ -44,15 +44,16 @@
   
   insert_msg('Correlations')
   
-  correl$test_results <- map(correl$analysis_tbl, 
-                             function(sev) map2(correl$pairs$var1, 
-                                                correl$pairs$var2, 
-                                                ~safely(correlate_variables)(sev, 
-                                                                             variables = c(.x, .y), 
-                                                                             what = 'correlation', 
-                                                                             type = 'kendall', 
-                                                                             pub_styled = FALSE, 
-                                                                             adj_method = 'none')))
+  correl$test_results <- 
+    map(correl$analysis_tbl, 
+        function(sev) map2(correl$pairs$var1, 
+                           correl$pairs$var2, 
+                           ~safely(correlate_variables)(sev, 
+                                                        variables = c(.x, .y), 
+                                                        what = 'correlation', 
+                                                        type = 'kendall', 
+                                                        pub_styled = FALSE, 
+                                                        adj_method = 'none')))
   
   
   ## getting the results, correlation analysis impossible for anosmia in the 
@@ -61,11 +62,15 @@
   correl$test_results <- correl$test_results %>% 
     map(~map_dfr(.x, ~.x$result) %>% 
           mutate(p_adjusted = p.adjust(p_value, 'BH'), 
-                 var1_label = translate_var(variable1, out_value = 'label_long'), 
-                 var2_label = translate_var(variable2, out_value = 'label_long'), 
+                 var1_label = translate_var(variable1, 
+                                            out_value = 'label_long'), 
+                 var2_label = translate_var(variable2, 
+                                            out_value = 'label_long'), 
                  correlation = ifelse(p_adjusted >= 0.05, 'ns', 
-                                      ifelse(estimate > 0, 'positive', 'negative')), 
-                 plot_cap = paste0('\u03C4 = ', signif(estimate, 2), ', ', significance), 
+                                      ifelse(estimate > 0, 
+                                             'positive', 'negative')), 
+                 plot_cap = paste0('\u03C4 = ', signif(estimate, 2), 
+                                   ', ', significance), 
                  var_pair = paste(variable1, variable2, sep = '_')))
 
 # convenience table with the significant correlations in the whole cohort ----
@@ -85,10 +90,11 @@
   
   insert_msg('Bubble plot with significant correlations')
   
-  correl$bubble_plots <- list(data = correl$signifcant, 
-                              plot_title = globals$sev_labels[names(correl$signifcant)], 
-                              plot_tag = map_dbl(correl$analysis_tbl, nrow) %>% 
-                                paste('n =', .)) %>% 
+  correl$bubble_plots <- 
+    list(data = correl$signifcant, 
+         plot_title = globals$sev_labels[names(correl$signifcant)], 
+         plot_tag = map_dbl(correl$analysis_tbl, nrow) %>% 
+           paste('n =', .)) %>% 
     pmap(plot_corr_buble)
 
 # correlation plots of the symptom number and mmrc with the SMWD, stress, chalder and eq5dl scales ------  
@@ -97,15 +103,16 @@
   
   ## symptom number
   
-  correl$sympt_no_plots <- list(x = correl$detail_vars, 
-                                y = paste(translate_var(correl$detail_vars, out_value = 'label_long'), 
-                                          translate_var('sympt_number'), 
-                                          sep = ' vs '), 
-                                z = translate_var(correl$detail_vars, 
-                                                  out_value = 'axis_lab_long'), 
-                                cap = filter(correl$test_results$cohort, 
-                                             variable1 == 'sympt_number', 
-                                             variable2 %in% correl$detail_vars)[['plot_cap']]) %>% 
+  correl$sympt_no_plots <- 
+    list(x = correl$detail_vars, 
+         y = paste(translate_var(correl$detail_vars, out_value = 'label_long'), 
+                   translate_var('sympt_number'), 
+                   sep = ' vs '), 
+         z = translate_var(correl$detail_vars, 
+                           out_value = 'axis_lab_long'), 
+         cap = filter(correl$test_results$cohort, 
+                      variable1 == 'sympt_number', 
+                      variable2 %in% correl$detail_vars)[['plot_cap']]) %>% 
     pmap(function(x, y, z, cap) plot_correlation(correl$analysis_tbl$cohort, 
                                                  variables = c('sympt_number', x), 
                                                  type = 'correlation', 
@@ -127,15 +134,16 @@
   
   ## mMRC
   
-  correl$mmrc_plots <- list(x = correl$detail_vars, 
-                            y = paste(translate_var(correl$detail_vars, out_value = 'label_long'), 
-                                      translate_var('mmrc'), 
-                                      sep = ' vs '), 
-                            z = translate_var(correl$detail_vars, 
-                                              out_value = 'axis_lab_long'), 
-                            cap = filter(correl$test_results$cohort, 
-                                         variable1 == 'mmrc', 
-                                         variable2 %in% correl$detail_vars)[['plot_cap']]) %>% 
+  correl$mmrc_plots <- 
+    list(x = correl$detail_vars, 
+         y = paste(translate_var(correl$detail_vars, out_value = 'label_long'), 
+                   translate_var('mmrc'), 
+                   sep = ' vs '), 
+         z = translate_var(correl$detail_vars, 
+                           out_value = 'axis_lab_long'), 
+         cap = filter(correl$test_results$cohort, 
+                      variable1 == 'mmrc', 
+                      variable2 %in% correl$detail_vars)[['plot_cap']]) %>% 
     pmap(function(x, y, z, cap) plot_correlation(correl$analysis_tbl$cohort, 
                                                  variables = c('mmrc', x), 
                                                  type = 'correlation', 

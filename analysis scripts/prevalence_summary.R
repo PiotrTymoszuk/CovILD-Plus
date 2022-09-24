@@ -84,20 +84,38 @@
                            pub_styled = TRUE, 
                            adj_method = 'BH'))
   
+  ## scales for bubble plots
+  
+  prev_sum$bubble_scales <- prev_sum$test_results %>% 
+    map(mutate, 
+        plot_lab = translate_var(variable), 
+        plot_lab = stri_replace(plot_lab, fixed = ' (', replacement = '\n('), 
+        plot_lab = paste(plot_lab, significance, sep = '\n')) %>% 
+    map(~set_names(.x$plot_lab, 
+                   .x$variable))
+  
 # plots -------
   
   insert_msg('Bubble plots')
   
-  prev_sum$plots <- list(variables = prev_sum$var_groups, 
-                         plot_title = c('Symptoms, 1 year', 
-                                        'LFT, 1 year', 
-                                        'Chest CT, 1 year', 
-                                        'TTE, 1 year', 
-                                        'Iron turnover, 1 year', 
-                                        'Inflammation and microvascular damage, 1 year', 
-                                        'Psychosocial status, 1 year')) %>% 
+  prev_sum$plots <- 
+    list(variables = prev_sum$var_groups, 
+         plot_title = c('Symptoms, one-year follow-up', 
+                        'LFT, one-year follow-up', 
+                        'Chest CT, one-year follow-up',  
+                        'TTE, one-year follow-up', 
+                        'Iron turnover, one-year follow-up', 
+                        'Inflammation and microvascular damage, one-year follow-up', 
+                        'Psychosocial status, one-year follow-up')) %>% 
     pmap(plot_prev_bubble, 
          data = prev_sum$analysis_tbl)
+  
+  ## plot adjustment
+  
+  prev_sum$plots <- 
+    map2(prev_sum$plots, 
+         prev_sum$bubble_scales, 
+         ~.x + scale_y_discrete(labels = .y))
   
 # END -----
   

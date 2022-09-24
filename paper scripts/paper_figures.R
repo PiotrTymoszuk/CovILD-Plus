@@ -14,9 +14,9 @@
                                        draw_image('./input data/Consort.png')) %>% 
     as_figure('figure_1_consort', 
               w = 90, 
-              h = 110, 
+              h = 90 * 2241/1488, 
               ref_name = 'consort', 
-              caption = 'CONSORT flow diagram of the study analysis inclusion')
+              caption = 'Flow diagram of the study analysis inclusion.')
   
 # Figure 2: symptom presence kinetic and particular symptoms at the 1-year FUP ------
   
@@ -66,7 +66,8 @@
               ., 
               ncol = 2, 
               labels = LETTERS, 
-              label_size = 10) %>% 
+              label_size = 10, 
+              rel_widths = c(0.53, 0.47)) %>% 
     as_figure(label = 'figure_3_lft', 
               w = 180, 
               h = 210, 
@@ -133,94 +134,44 @@
   insert_msg('Figure 6: correlations')
   
   paper_figures$correlations <- correl$bubble_plot$cohort + 
-    theme(plot.subtitle = element_blank(), 
+    theme(plot.tag = element_blank(), 
           legend.position = 'none') + 
-    labs(title = 'Symptoms, respiratory and psychosocial features')
+    labs(title = 'Symptoms, respiratory and psychosocial features', 
+         subtitle = paste("Kendall's \u03C4 B,", 
+                          correl$bubble_plot$cohort$labels$tag))
   
   paper_figures$correlations <- paper_figures$correlations %>% 
     as_figure(label = 'figure_6_correlations', 
               w = 180, 
               h = 195, 
               ref_name = 'correlations', 
-              caption = 'Persistent symptoms and cardiopulmonary abnormalities and mobility, health self-perception, fatigue and stress scoring.')
+              caption = 'Correlation of symptoms, physical performance, cardiopulmonary findings, mental health and quality of life at the one-year follow-up.')
   
 # Figure 7: recovery clusters --------
   
   insert_msg('Figure 7: Recovery clusters')
   
-  paper_figures$clusters$upper_panel <- plot_grid(part_clust$heat_map_ft + 
-                                                    labs(title = 'Recovery clusters') + 
-                                                    theme(legend.position = 'none', 
-                                                          plot.tag = element_blank(), 
-                                                          plot.subtitle = element_blank()), 
-                                                  plot_grid(get_legend(part_clust$heat_map_ft), 
-                                                            ggdraw() + 
-                                                              draw_text(part_clust$heat_map_ft$labels$tag, 
-                                                                        size = 8, 
-                                                                        hjust = 0), 
-                                                            nrow = 2), 
-                                                  ncol = 2, 
-                                                  rel_widths = c(0.72, 0.25))
-  
-  paper_figures$clusters$signif_fct <- clust_chara$test_results %>% 
-    filter(p_adjusted < 0.05, 
-           variable %in% globals$clust_variables) %>% 
-    .$variable
-  
-  paper_figures$clusters$lower_panel <- plot_grid(part_clust$ribbon_plots$CP + 
-                                                    scale_y_discrete(labels = function(x) embolden_scale(x, 
-                                                                                             highlight = paper_figures$clusters$signif_fct, 
-                                                                                             translate = TRUE), 
-                                                                     limits = rev(c('ct_severity_any', 
-                                                                                    'diastolic_dysf', 
-                                                                                    'lufo_red'))) + 
-                                                    theme(legend.position = 'none', 
-                                                          axis.text.y = element_markdown()), 
-                                                  get_legend(part_clust$ribbon_plots[[1]]), 
-                                                  part_clust$ribbon_plots$Clinical + 
-                                                    scale_y_discrete(labels = function(x) embolden_scale(x, 
-                                                                                                         highlight = paper_figures$clusters$signif_fct, 
-                                                                                                         translate = TRUE), 
-                                                                     limits = rev(c('smwd_low', 
-                                                                                   'sympt_present', 
-                                                                                   'dyspnoe_sympt', 
-                                                                                   'cough_sympt', 
-                                                                                   'fatigue_sympt', 
-                                                                                   'Chalder_FS_bimodal', 
-                                                                                   'sleep_sympt', 
-                                                                                   'night_sweat_sympt', 
-                                                                                   'anosmia_sympt'))) + 
-                                                    theme(legend.position = 'none', 
-                                                          axis.text.y = element_markdown()), 
-                                                  part_clust$ribbon_plots$Psychosocial + 
-                                                    scale_y_discrete(labels = function(x) embolden_scale(x, 
-                                                                                                         highlight = paper_figures$clusters$signif_fct, 
-                                                                                                         translate = TRUE), 
-                                                                     limits = rev(c('Stress_hi', 
-                                                                                    'EQ5DL_low', 
-                                                                                    'EQ5DL_activities_bi', 
-                                                                                    'EQ5DL_anxiety_bi', 
-                                                                                    'EQ5DL_pain_bi', 
-                                                                                    'EQ5DL_mobility_bi', 
-                                                                                    'EQ5DL_selfcare_bi'))) + 
-                                                    theme(legend.position = 'none', 
-                                                          axis.text.y = element_markdown()), 
-                                                  nrow = 2, 
-                                                  rel_heights = c(1, 2), 
-                                                  align = 'hv', 
-                                                  axis = 'tblr')
-
-  paper_figures$clusters <- plot_grid(paper_figures$clusters$upper_panel, 
-                                      paper_figures$clusters$lower_panel, 
-                                      nrow = 2, 
-                                      labels = LETTERS, 
-                                      label_size = 10, 
-                                      rel_heights = c(0.4, 0.6)) %>% 
+  paper_figures$clusters <- 
+    plot_grid(part_clust$ribbon_plots$CP + 
+                theme(legend.position = 'none'), 
+              get_legend(part_clust$ribbon_plots[[1]]), 
+              ggdraw(), 
+              ggdraw(), 
+              part_clust$ribbon_plots$Clinical + 
+                theme(legend.position = 'none'), 
+              part_clust$ribbon_plots$Psychosocial + 
+                theme(legend.position = 'none'), 
+              nrow = 3, 
+              rel_heights = c(1, 0.1, 2), 
+              align = 'hv', 
+              axis = 'tblr', 
+              labels = c('A', '', 'B', 'C', ''), 
+              label_size = 10) %>% 
     as_figure(label = 'figure_7_clusters', 
               w = 180, 
-              h = 220, 
+              h = 200, 
               ref_name = 'clusters', 
-              caption = 'Clusters of clinical and psychosocial COVID-19 recovery.')
+              caption = 'COVID-19 recovery clusters.')
   
 # Figure 8: psychosocial recovery in the clusters -----
   
@@ -241,6 +192,7 @@
           labs(tag = .x$labels$tag %>% 
                  stri_replace_all(fixed = '\n', replacement = ', ') %>% 
                  paste0('\n', .), 
+               x = 'Recovery cluster', 
                title = stri_replace(.x$labels$title, 
                                     regex = '\\(.*\\)', 
                                     replacement = ''))) %>% 
@@ -261,6 +213,12 @@
   paper_figures %>% 
     walk(pickle, 
          path = './paper/figures', 
+         format = 'pdf', 
+         device = cairo_pdf)
+  
+  paper_figures %>% 
+    walk(pickle, 
+         path = './paper/figures eps', 
          format = 'eps', 
          device = cairo_ps)
   

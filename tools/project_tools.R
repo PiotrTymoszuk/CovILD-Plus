@@ -436,12 +436,13 @@
   
   make_mod_panel <- function(roc_plot_list, 
                              lasso_forest_plot, 
-                             lasso_rel_h = c(0.9, 0.1)) {
+                             lasso_rel_h = c(0.9, 0.1), 
+                             roc_rel_h = c(1, 0)) {
     
     ## makes a combined panel with the plot of LASSO modeling estimates
     ## and ROC curves in the training and CV data sets.
     
-    left_panel <- map2(roc_plot_list, 
+    right_panel <- map2(roc_plot_list, 
                        c('Training data set', 
                          'Cross-validation'), 
                        ~.x + 
@@ -452,18 +453,18 @@
                 align = 'hv') %>% 
       plot_grid(ggdraw(), 
                 nrow = 2, 
-                rel_heights = c(0.85, 0.15))
+                rel_heights = roc_rel_h)
     
-    right_panel <- plot_grid(lasso_forest_plot + 
-                               labs(tag = paste0('\n', 
-                                                 roc_plot_list[[1]]$labels$tag)), 
-                             ggdraw(),
-                             nrow = 2,
-                             rel_heights = lasso_rel_h)
+    left_panel <- plot_grid(lasso_forest_plot + 
+                              labs(tag = paste0('\n', 
+                                                roc_plot_list[[1]]$labels$tag)), 
+                            ggdraw(),
+                            nrow = 2,
+                            rel_heights = lasso_rel_h)
     
-    plot_grid(right_panel, 
+    plot_grid(left_panel, 
               ggdraw(), 
-              left_panel, 
+              right_panel, 
               ncol = 3, 
               rel_widths = c(1.1, 0.07, 0.83), 
               labels = c('A', '', 'B'), 
@@ -574,8 +575,13 @@
       
       labels <- translate_var(x, dict = dict, ...)
       
+      labels <- set_names(stri_replace(labels, 
+                                       fixed = ' (', 
+                                       replacement = '<br>('), 
+                          names(labels))
+      
       return(ifelse(x %in% highlight, 
-                    glue("<b style='color:{color}'>{labels[x]}</b>"), 
+                    glue("<span><b style='color:{color}'>{labels[x]}</b><span>"), 
                     labels[x]))
       
       

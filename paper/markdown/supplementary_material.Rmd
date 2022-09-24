@@ -9,7 +9,7 @@ output:
     reference_docx: ms_template.docx
     
 bibliography: cov_biblio.bib
-csl: frontiers-in-immunology.csl
+csl: erj.csl
 header-includes:
   \usepackage{longtable}
   \usepackage{tabu}
@@ -31,9 +31,16 @@ header-includes:
 
 ```{r, setup, include = FALSE}
 
-library(bookdown)
-
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev = "png", dpi = 600)
+  library(bookdown)
+  
+  knitr::opts_chunk$set(echo = FALSE, 
+                        warning = FALSE, 
+                        message = FALSE, 
+                        dev = "png", 
+                        dpi = 600)
+  
+  flextable::set_flextable_defaults(font.size = 10, 
+                                    font.family = 'Cambria')
 
 
 ```
@@ -44,52 +51,105 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev = "png
 
 # Supplementary Methods
 
-## Data transformation, variable stratification, descriptive statistic
+## Software
 
-The study variables were transformed, analyzed and visualized with R version 4.2.0 with _tidyverse_ [@Wickham2019; @Wickham2016] and _cowplot_ [@Wilke2019].
+The study variables were transformed, analyzed and visualized with R version 4.2.0. 
+General data import and transformation tasks were accomplished with the _tidyverse_ [@Wickham2019] and _rlang_ [@Henry2022] packages. 
+Analysis results were visualized with the _ggplot2_ [@Wickham2016], _cowplot_ [@Wilke2019], _rmarkdown_ [@Allaire2022], _knitr_ [@Xie2022] and _bookdown_ [@Xie2016] packages and the development package _figur_ (https://github.com/PiotrTymoszuk/figur). 
+Tables were generated with the package _flextable_ [@Gohel2022].
 
-Participant age during acute COVID-19 was stratified with the 50 and 65 year cutoffs. 
-Participants were stratified according to the severity of acuet COVID-19 as ambulatory (outpatients), moderate (hospitalized at COVID-19 ward, no mechanical ventilation) and severe (mechanical ventilation and/or intensive care unit stay). 
+## Procedures, variables and variable stratification
+
+Numeric variables are presented as medians with interquartile ranges (IQR), categorical variables are presented as percentages of complete answers.
+
+Participant age during acute COVID-19 was stratified for modeling tasks with the 50 and 65 year cutoffs. 
+Participants were stratified according to the severity of acute COVID-19 as ambulatory (outpatients), moderate (hospitalized at COVID-19 ward, no mechanical ventilation) and severe (mechanical ventilation and/or intensive care unit stay).
+
+Investigated COVID-19 symptoms encompassed 
+self-reported complaints (fever, night sweating, cough, smell disorders, sleep disorders, hair loss, dermatological and gastrointestinal symptoms, surveyed by single yes/no questions), 
+dyspnoea (Modified Medical British Research Council [mMRC], dyspnea: mMRC $\geq$ 1), 
+reduced physical performance (Eastern Cooperative Oncology Group [ECOG], reduced performance: ECOG ≥1) [@Oken1982] 
+and fatigue (bimodal and likert 11-item Chalder fatigue score [CFS]; fatigue: bimodal CFS $\geq$ 4) [@Morriss1998].
+
 Lung function testing (LFT) parameters were stratified by 80% predicted value (FEV1: forced expiratory volume in 1 second; FVC: forced vital capacity; DLCO: diffusion lung capacity for carbon monoxide; TLC: total lung capacity) or 70% predicted value cutoffs (FEV1:FVC: FEV1 to FVC ratio). Abnormal LFT was diagnosed when at least one of FEV1, FVC, DLCO, RV, TLC or FEV1:FVC was reduced. 
-Chest computed tomography was assessed and rated with the CT severity score as described [@Sonnweber2022; @Sonnweber2020]; moderate-to-severe CT abnormalities were defined by CT severity score > 5. 
-Anemia was defined as hemoglobin < 140 g/dL or < 120 g/dL for men and women, respectively. 
-Elevated ferritin (FT) was defined as $\geq$ 300 µg/L or $\geq$ 150 µg/L for men and women, respectively. 
+
+Chest computed tomography was assessed according to the Fleischner society glossary terms [@Hansell2008] and rated with the CT severity score summed over all lung lobes [@Sonnweber2022; @Sonnweber2020; @Luger2022].
+The CT score for each lobe was defined as follows: 
+0: none; 
+1: minimal (subtle ground-glass opacities [GGO]); 
+2: mild (several GGOs, subtle reticulation); 
+3: moderate (multiple GGOs, reticulation, small consolidation); 
+4: severe (extensive GGOs, consolidation, reticulation with distortion); 
+and 5: massive (massive findings, parenchymal destruction). 
+The total CT severity score was the sum overa all lung lobes. 
+Any chest CT abnormalities were defined as CT severity score $\geq$ 1, moderate-to-severe CT abnormalities were defined as CT severity score > 5.
+
+TTE was performed according to the ESC and EACVI recommendations [@Lancellotti2015].
+Diastolic dysfunction was determined by assessing left ventricular filling by trans-mitral PW Doppler and measuring the peak of early filling (E) and peak of late atrial filling (A). 
+For the assessment of pseudo-normal E/A ratio, peak early diastolic velocity (e’) was measured at the lateral mitral annulus with tissue Doppler to calculate E/e’. 
+Grading of diastolic dysfunction was performed as follows: normal diastolic function: E/A ratio = 1 - 2; diastolic dysfunction I°: E/A ratio < 0.8; diastolic dysfunction II°: E/A = 0.8 - 1.5. and diastolic dysfunction III°: E/A > 2. 
+
+Reference values of the six-minute walking distance (6MWD) [@Crapo2012] were calculated with the participants sex, age, weight and height as described previously [@Enrichi2012]. 
+Low 6MWD was defined as a value below the patient's specific reference value.
+
+Sub-scores of the EQ-5D-5L questionnaire (European quality of life 5 dimensions, 5 levels) [@Herdman2011] addressing impairment of usual activities, mobility and self-care as well as pain/discomfort, depression/anxiety were stratified with the cutoff of 1 (1: no impairment or absence, > 1: impairment or presence). 
+Visual analogue scale (VAS) of the EQ-5D-5L tool describing the self-perceived general health was binarized with the cutoff of 73.2 as published before for the general elderly German population [@Marten2021]. 
+Elevated stress levels were defined by the median split of the 4-item PSS score (Perceived Stress Scale, > 5: elevated stress) [@Cohen1983]. 
+Resilient coping classes: low (4 - 13 points), medium (14 - 16) and high (17 - 21 points) were defined with the Brief Resilient Coping Scale (BRCS) [@Sinclair2004].
+
+Laboratory parameters were determined by the ISO-certified central laboratory of the University Hospital of Innsbruck (Zentralinstitut für medizinische u. chemische Labordiagnostik, ZIMCL).
+C-reative protein (CRP), interleukin 6 (IL6), procalcitonin (PCT), N-terminal pro-brain natriuretic peptide (NT-proBNP) and serum ferritin (FT) were determined with a Roche Cobas 8000 analyser (Basel, Switzerland). 
+D-dimer was measured with a Siemens BCS-XP instrument using the Siemens D-Dimer Innovance reagent (Erlangen, Germany). 
+Anti-S1/S2 protein SARS-CoV-2 immunoglobulin gamma (IgG) was quantified with LIAISON chemoluminescence assay (DiaSorin, Italy) and expressed as arbitrary units.
+Anemia was defined as hemoglobin < 140 g/dL (male) or < 120 g/dL (female). 
+Elevated FT was defined as $\geq$ 300 µg/L or $\geq$ 150 µg/L for men and women, respectively. 
 Reduced transferrin saturation (TSAT) was defined as < 20% or < 15% for men and women, respectively. 
-Elevated N-terminal pro - brain natriuretic peptide (NT-proBNP) was defined as > 150 pg/mL. 
-Elevated D-dimer, C-reactive protein (CRP), procalcitonin (PCT) and interleukin 6 (IL6) were defined with the 500 µg/L, 0.5 mg/L, 0.15 µg/L and 7 pg/mL cutoffs, respectively. 
+Elevated NT-proBNP was defined as > 150 pg/mL. 
+Elevated D-dimer, CRP, PCT and IL6 were defined with the 500 µg/L, 0.5 mg/L, 0.15 µg/L and 7 pg/mL cutoffs, respectively. 
 Anti-S1/S2 SARS-CoV-2 immunoglubulin gamma (anti-S1/S2 IgG) was stratified by quartiles (cutoffs: `r quantile(cov_data$data_tbl$SarsCov2_IgG, c(0.25, 0.5, 0.75), na.rm = TRUE) %>% paste(collapse = ', ')` arbitrary units) [@Sonnweber2022].
-For clustering, the sub-scores of the EQ-5D-5L questionnaire [@Herdman2011] addressing impairment of usual activities, mobility and self-care as well as pain/discomfort, depression/anxiety were stratified with the cutoff of 1 (1: no impairment or absence, > 1:impairment or presence). Visual analogue scale (VAS) of the EQ-5D-5L tool describing the self-perceived general health was binarized with the cutoff of 73.2 as published before for the general elderly German population [@Marten2021]. Elevated stress levels were defined by the median split of the 4-item PSS score (> 5: elevated stress).
-Reference values of the six-minute walking distance (SMWD) [@Crapo2012] were calculated with the participants sex, age, weight and height as described previously [@Enrichi2012]. Low SMWD was defined as a value below the patient's specific reference value. The full list of the study variables and their stratification scheme is presented in __Supplementary Tables \@ref(tab:tab-study-vars)__ and __S\@ref(tab:tab-battery)__.
+
+The full list of the study variables and their stratification scheme is presented in __Supplementary Table\@ref(tab:tab-study-vars)__.
 
 ## Hypothesis testing and correlation
 
 To compare differences in distribution of categorical features, $\chi^2$ test with Cramer V effect size statistic was applied. 
-Since multiple numeric variables were strongly non-normally distributed as identified by Shapiro-Wilk test, Mann-Whitney U test with Wilcoxon r effect size statistic or Kruskal-Wallis test with $\eta^2$ effect size statistic was applied to assess differences between two or more groups, respectively. Association of the readouts of clinical, cardiopulmonary, mobility and quality of life deficits at the one-year follow-up visit were determined by Kendall's $\tau$B correlation. Binary variables were recoded as 1 and 2 for absent and present, respectively. P values were corrected for multiple comparisons with Benjamini-Hochberg method [@Benjamini1995]. R packages _rstatix_, _rcompanion_ and _Hmisc_ and the in-house developed package _ExDA_ (https://github.com/PiotrTymoszuk/ExDA) were used for explorative data analysis, statistical hypothesis testing and correlation analysis.
+Since multiple numeric variables were strongly non-normally distributed as identified by Shapiro-Wilk test, Mann-Whitney U test with r effect size statistic or Kruskal-Wallis test with $\eta^2$ effect size statistic was applied to assess differences between two or more groups, respectively. 
+Associations of the readouts of clinical, cardiopulmonary, mobility and quality of life deficits at the one-year follow-up visit were determined by pairwise Kendall's $\tau$ B correlation. 
+In the correlation analysis, binary variables were recoded as 1 and 2 for absent and present, respectively. 
+P values were corrected for multiple comparisons with Benjamini-Hochberg method [@Benjamini1995]. 
+R packages _rstatix_ [@Kassambara2021], _rcompanion_ [@Mangiafico2022] and _Hmisc_ [@Harrell2022] and the in-house developed package _ExDA_ (https://github.com/PiotrTymoszuk/ExDA) were used for explorative data analysis, statistical hypothesis testing and correlation analysis.
 
-## Modeling of risk and paramater value in time
+## Modeling of risk and parameter value in time
 
-To model recovery kinetics for categorical variables, second-order mixed-effect logistic (categorical features) modeling was applied (packages: _lme4_ and _lmerTest_) [@Bates2015; @Kuznetsova2017; @Box1978]. Each model followed the general formula:
+To model recovery kinetics for categorical variables, second-order mixed-effect logistic (categorical features) modeling was applied (packages: _lme4_ and _lmerTest_) [@Bates2015; @Kuznetsova2017; @Box1978]. 
+Each model followed the general formula:
 
 $$Response \sim time + time^2 + (1|individual)$$
 
-where $(1|individual)$ indicates the random effect of the individual and $time$ and $time^2$ indicate the first- and second-order time effect terms. The first-order term estimate was interpreted as a measure of the recovery speed and the second-order term estimate was used to assess the plateau/rebound effect. Significance of the accuracy gain of the full second-order model compared with the nested null model was determined by likelihood ratio test (LRT) versus the nested first-order and null models, respectively. Likelihood ratio $\lambda$ statistic was used as an effect size measure.
-
-To assess the longitudinal changes of a numeric dependent variable in time, Friedman test with Kendall's W effect was used (packages: _rstatix_ and _ExDA_: https://github.com/PiotrTymoszuk/ExDA). Results of the kinetic modeling and Friedman tests were adjusted for multiple comparisons with Benjamini-Hochberg method [@Benjamini1995].
+where $(1|individual)$ indicates the random effect of the individual and $time$ and $time^2$ indicate the first- and second-order time effect terms. 
+The first-order term estimate was interpreted as a measure of the recovery speed and the second-order term estimate was used to assess the plateau/rebound effect. 
+Significance of the accuracy gain of the full second-order model compared with the nested null model was determined by likelihood ratio test (LRT) versus the nested first-order and null models, respectively. 
+The likelihood ratio $\lambda$ statistic was used as an effect size measure. 
+Results of the kinetic modeling were adjusted for multiple comparisons with Benjamini-Hochberg method [@Benjamini1995].
 
 ## Clustering analysis
 
-To identify patterns of COVID-19 recovery defined by `r length(globals$clust_variables)` binary symptom, cardiopulmonary and psychosocial variables recorded at the 1-year follow-up visit (__Supplementary Tables S\@ref(tab:tab-study-vars)__ and __S\@ref(tab:tab-battery)__) the subset of the study participants with the complete variable record was clustered using the PAM (partition around medoids) algorithm and the simple matching distance statistic [@Schubert2019; @Boriah2008]. The data pre-processing included conversion of binary features to the numeric format (absent: 1, present: 1). The choice of the clustering procedure was motivated by the analysis of the clustering variance (ratio of the total between-cluster to total sum of squares) and clustering structure stability in 10-fold cross-validation (metric: rate of correct cluster assignment, cluster assignment predicted by k = 5 nearest neighbors label propagation algorithm) [@Lange2004; @Leng2014] for several clustering algorithms as presented in __Supplementary Figure S\@ref(fig:fig-clust-qc)A__.
-The optimal number of clusters was determined by the bend of the total within-cluster sum of squares curve (__Supplementary Figure S\@ref(fig:fig-clust-qc)B__).
-The clustering analysis was accomplished with packages _cluster_, _dbscan_ and the in-house developed package _clustTools_ (https://github.com/PiotrTymoszuk/clustTools).
-
-## Univariable modeling
-
-Association of `r length(uni_mod$variables)` candidate co-variates recorded during acute COVID-19 or at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__) with the risk of persistent COVID-19 symptoms, LFT or CT abnormalities or diastolic dysfunction at the 1-year follow-up was investigated with a series of univariable logistic models (__Supplementary Table S\@ref(tab:tab-uni-mod)__). Model estimate (odds ratio, OR) significance was assessed by Wald Z test and p values were corrected for multiple comparisons with Benjamini-Hochberg method [@Benjamini1995]. Model estimate extraction and quality control was accomplished with the in-house-developed package _lmqc_ (https://github.com/PiotrTymoszuk/lmqc).
+To identify patterns of COVID-19 recovery defined by `r length(globals$clust_variables)` binary symptom, cardiopulmonary and psychosocial variables recorded at the one-year follow-up visit (__Supplementary Tables S\@ref(tab:tab-study-vars)__) the subset of the study participants with the complete variable record was clustered using the PAM (partition around medoids) algorithm and the simple matching distance statistic (packages _cluster_ and _nomclust_) [@Schubert2019; @Boriah2008; @Sulc2021]. 
+The data pre-processing included conversion of binary features to the numeric format (absent: 1, present: 1). 
+The choice of the clustering procedure was motivated by the analysis of the clustering variance (ratio of the total between-cluster to total sum of squares) and clustering structure stability in 10-fold cross-validation (metric: rate of correct cluster assignment, cluster assignment predicted by k = 5 nearest neighbors label propagation algorithm, packages _dbscan_ and the development package _clustTools_ [https://github.com/PiotrTymoszuk/clustTools]) [@Lange2004; @Leng2014] for several clustering algorithms as presented in __Supplementary Figure S\@ref(fig:fig-clust-qc)A__.
+The optimal number of clusters was determined by the bend of the total within-cluster sum of squares curve (package _factoextra_) [@Kassambara2020] as presented in __Supplementary Figure S\@ref(fig:fig-clust-qc)B__.
+Permutation importance of the clustering factors was assessed by comparing the clustering variance (ratio of the total between-cluster to total sum of squares) of the original clustering structure with the clustering variance of the clustering object with the given variable reshuffled randomly. 
+The difference in clustering variances ($\Delta$ clustering variance) served as the importance statistic. 
+Determination of the clustering factor importance was done for n = 100 permutations for each variable using the development package _clustTools_ (https://github.com/PiotrTymoszuk/clustTools) as presented in __Supplementary Figure \@ref(fig:fig-clust-qc)C__.
 
 ## Multi-parameter modeling
 
-The risk of persistent COVID-19 symptoms, LFT or CT abnormalities or diastolic dysfunction at the 1-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression [@Tibshirani1996] and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__). The value of the $\lambda$ shrinkage parameter were determined by 10-fold cross-validation (CV) repeated 100 times; the optimal value for the model with the lowest deviance was chosen [@Friedman2010]. The model performance at predicting the 1-year event in the training data set and in 10-fold CV was investigated by receiver-operating characteristic (ROC) [@Kuhn2008], Cohen's $\kappa$ [@Fleiss1969] and R-squared statistics. Model assumption control was accomplished by a visual control of model residuals plots (residuals versus fitted and quantile-quantile plots). 
-The multi-parameter modeling, model evaluation and model feature visualization tasks was accomplished with _glmnet_ [@Friedman2010], _caret_ [@Kuhn2008], _plotroc_ packages [@Sachs2017] and the in-house development package _caretExtra_ (https://github.com/PiotrTymoszuk/caretExtra).
+The risk of persistent COVID-19 symptoms, LFT findings, CT abnormalities, and diastolic dysfunction at the one-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression [@Tibshirani1996] and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__). 
+The LASSO modeling was accomplished with the packages _glmnet_ [@Friedman2010] and _caret_ [@Kuhn2008].
+The value of the $\lambda$ shrinkage parameter were determined by 10-fold cross-validation (CV) repeated 100 times; the optimal value for the model with the lowest deviance was chosen [@Friedman2010]. 
+The model performance at predicting the one-year event in the training data set and in 10-fold CV was investigated by receiver-operating characteristic (ROC) [@Kuhn2008], Cohen's $\kappa$ [@Fleiss1969] and R-squared statistics (package _caret_) [@Kuhn2008]. 
+Model assumptions were checked by a visual control of model residuals plots (residuals versus fitted and quantile-quantile plots, development package _caretExtra_ [https://github.com/PiotrTymoszuk/caretExtra]). 
+ROC plots were generated with the _plotroc_ package [@Sachs2017] and the development package _caretExtra_ (https://github.com/PiotrTymoszuk/caretExtra).
 
 ## Source code availability
 
@@ -99,122 +159,49 @@ The raw study data will be made available upon request. The R analysis pipeline 
 
 # Supplementary Tables {#sec:tables}
 
-```{r tab-study-vars, tab.cap = 'Study variables.'}
+```{r tab-study-vars, tab.cap = 'Study variables. The table is available as a supplementary Excel file.'}
 
-suppl_tables$study_vars %>% 
-  flextable %>% 
-  width(1, width = 3, unit = 'cm') %>% 
-  width(2, width = 6, unit = 'cm') %>% 
-  width(3, width = 3.5, unit = 'cm')  %>% 
-  width(4:5, width = 2.5, unit = 'cm') %>% 
-  merge_v(3) %>% 
-  theme_vanilla %>% 
-  font(part = 'all', fontname = 'Cambria') %>% 
-  fontsize(size = 10, part = 'all')
+suppl_tables$study_vars[1, 1] %>% 
+  mutate(`R variable` = ' ') %>% 
+  set_names(' ') %>% 
+  flextable
 
 ```
 
 \newpage
 
-```{r tab-battery, tab.cap = 'Physical performance, fatigue, quality of life, psychosocial and mental health assessment battery.'}
-
-suppl_tables$battery %>% 
-  flextable %>% 
-  width(1, width = 4, unit = 'cm') %>% 
-  width(2, width = 7, unit = 'cm') %>% 
-  width(3, width = 5, unit = 'cm')  %>% 
-  merge_v(1) %>% 
-  theme_vanilla %>% 
-  font(part = 'all', fontname = 'Cambria') %>% 
-  fontsize(size = 10, part = 'all')
-
-```
-
-\newpage
-
-```{r tab-clust-clinics, tab.cap = 'Demographic and clinical characteristics of the COVID-19 recovery clusters.'}
+```{r tab-clust-base, tab.cap = 'Extended baseline characteristics, post-acute steroid therapy and rehabilitation status of the COVID-19 recovery clusters.'}
 
 suppl_tables$clust_chara %>% 
+  map_dfc(stri_replace, fixed = 'no', replacement = 'none') %>% 
   flextable %>% 
-  width(1, width = 2.6, unit = 'cm') %>% 
-  width(2:4, width = 3.8, unit = 'cm') %>% 
+  width(1, width = 2.8, unit = 'cm') %>% 
+  width(2:4, width = 4.3, unit = 'cm') %>% 
   width(5, width = 2.7, unit = 'cm') %>% 
-  width(6, width = 2.3, unit = 'cm') %>% 
-  theme_vanilla() %>% 
-  footnote(i = 1, j = 5:6, value = as_paragraph('Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Vallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
-  footnote(i = 10, j = 1, part = 'body', value = as_paragraph('CVD: Cardiovascular disease.'), ref_symbols = 'b') %>% 
-  footnote(i = 14, j = 1, part = 'body', value = as_paragraph('CKD: Chronic kidney disease'), ref_symbols = 'c') %>% 
-  footnote(i = 15, j = 1, part = 'body', value = as_paragraph('GID: Gastrointestinal disease'), ref_symbols = 'd') %>% 
-  font(part = 'all', fontname = 'Cambria') %>% 
-  fontsize(size = 10, part = 'all')
+  width(6, width = 2.3, unit = 'cm') %>%
+  footnote(i = 1, j = 5:6, value = as_paragraph('\u03C7\u00B2 test with Cramer V effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
+  footnote(i = 11, j = 1, value = as_paragraph('Steroid therapy in cases of non-resolving pneumonia beginning from week four post diagnosis at the discretion of the physician.'), ref_symbols = 'b', part = 'body') %>% 
+  theme_vanilla
 
 ```
 
 \newpage
 
-```{r tab-clust-clin-reco, tab.cap = 'Symptoms and cardiopulmonary abnormalities at the 1-year follow-up in the COVID-19 recovery clusters.'}
+```{r tab-clust-fup, tab.cap = 'Extended characteristic of the COVID-19 recovery clusters at the one-year follow-up.'}
 
-suppl_tables$clust_endpoints %>% 
-  flextable %>% 
+flextable::flextable(suppl_tables$clust_fup) %>% 
   width(1, width = 2.6, unit = 'cm') %>% 
-  width(2:4, width = 3.8, unit = 'cm') %>% 
+  width(2:4, width = 4.3, unit = 'cm') %>% 
   width(5, width = 2.7, unit = 'cm') %>% 
-  width(6, width = 2.3, unit = 'cm') %>% 
-  theme_vanilla() %>% 
-  footnote(i = 1, j = 5:6, value = as_paragraph('Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Vallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
-  footnote(i = 13, j = 1, ref_symbols = 'b', part = 'body', value = as_paragraph('LFT abnormality: abnormality in lung function testing, > 80% predicted value (FEV1: forced expiratory volume in 1 second; FVC: forced vital capacity; DLCO: diffusion lung capacity for carbon monoxide; TLC: total lung capacity) or > 70% predicted value cutoffs (FEV1:FVC: FEV1 to FVC ratio.)')) %>% 
-  footnote(i = 14, j = 1, ref_symbols = 'c', part = 'body', value = as_paragraph('CT abnormality: any abnormality in chest computed tomography, CT severity score \u2265 1.')) %>% 
-  font(part = 'all', fontname = 'Cambria') %>% 
-  fontsize(size = 10, part = 'all')
+  width(6, width = 2.3, unit = 'cm') %>%
+  footnote(i = 1, j = 5:6, value = as_paragraph('Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Wallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
+  footnote(i = 5, j = 1, part = 'body', value = as_paragraph('CT severity score: chest computed tomography severity score'), ref_symbols = 'b') %>% 
+  footnote(i = 6, j = 1, part = 'body', value = as_paragraph('6MWD, m: six-minute walking distance, meters'), ref_symbols = 'c') %>% 
+  footnote(i = 7:8, j = 1, part = 'body', value = as_paragraph('EQ5D5L: European quality of life 5 dimensions, 5 levels'), ref_symbols = 'd') %>% 
+  theme_vanilla
 
 ```
 
-\newpage
-
-```{r tab-clust-psych-reco, tab.cap = 'Mobility, physical performance and psychosocial rating at the 1-year follow-up in the COVID-19 recovery clusters.'}
-
-suppl_tables$psych_reco %>% 
-  flextable %>% 
-  width(1, width = 2.6, unit = 'cm') %>% 
-  width(2:4, width = 3.8, unit = 'cm') %>% 
-  width(5, width = 2.7, unit = 'cm') %>% 
-  width(6, width = 2.3, unit = 'cm') %>% 
-  theme_vanilla() %>% 
-  footnote(i = 1, j = 5:6, value = as_paragraph('Categorical variables: \u03C7\u00B2 test with Cramer V effect size statistic; numeric variables: Kruskal-Vallis test with \u03B7\u00B2 effect size statistic. P values corrected for multiple testing with Benjamini-Hochberg method.'), ref_symbols = 'a', part = 'header') %>% 
-  footnote(i = 2, j = 1, value = as_paragraph('SMWD: six-minute walking distance, meters.'), ref_symbols = 'b', part = 'body') %>% 
-  footnote(i = 3, j = 1, value = as_paragraph('SMWD vs ref.: difference between the reference and observed SMWD value, meters.'), ref_symbols = 'c', part = 'body') %>% 
-  footnote(i = 4, j = 1, value = as_paragraph('SMWD < ref.: SMWD below the reference value.'), ref_symbols = 'd', part = 'body') %>% 
-  footnote(i = 5:6, j = 1, value = as_paragraph('CFS: 11-item Chalder fatigue score, incr.: increased.'), ref_symbols = 'e', part = 'body') %>% 
-  footnote(i = 7:8, j = 1, value = as_paragraph('VAS: visual analogue scale, imp.: impaired.'), ref_symbols = 'f', part = 'body') %>% 
-  footnote(i = seq(10, 18, by = 2), j = 1, value = as_paragraph('EQ5D5L subscore > 1, imp.: impaired.'), ref_symbols = 'g', part = 'body') %>% 
-  footnote(i = 19:20, j = 1, value = as_paragraph('PSS: 4-item perceived stress scale.'), ref_symbols = 'h', part = 'body') %>% 
-  footnote(i = 21, j = 1, value = as_paragraph('SSD-12: 12-item somatic syndrome disorder – B criteria scale.'), ref_symbols = 'i', part = 'body') %>% 
-  footnote(i = 22, j = 1, value = as_paragraph('BRCS: brief resilient coping score.'), ref_symbols = 'j', part = 'body') %>%
-  footnote(i = 23, j = 1, value = as_paragraph('low: 4 - 13 points, medium: 14 - 16 points, high: 17 - 21 points in the BRCS scale.'), ref_symbols = 'k', part = 'body') %>% 
-  font(part = 'all', fontname = 'Cambria') %>% 
-  fontsize(size = 10, part = 'all')
-
-```
-
-\newpage
-
-```{r tab-uni-mod, tab.cap = 'Significant results of univariable modeling of the risk of symptom presence, lung function abnormalities, radiological chest abnormalities and diastolic dysfunction at the 1-year follow-up.'}
-
-suppl_tables$uni_mod %>% 
-  flextable %>% 
-  width(1, width = 2.5, unit = 'cm') %>% 
-  width(2, width = 3.5, unit = 'cm') %>% 
-  width(3:4, width = 2.2, unit = 'cm') %>% 
-  width(5:6, width = 1.5, unit = 'cm') %>% 
-  width(7:8, width = 3, unit = 'cm') %>% 
-  merge_v(1:2) %>% 
-  theme_vanilla() %>% 
-  footnote(1, 7, value = as_paragraph('Odds ratio with 95% confidence intervals.'), part = 'header', ref_symbols = '1') %>% 
-  footnote(1, 8, value = as_paragraph('Wald Z test. P values corrected for multiple testing with Benjamini-Hochberg method.'), part = 'header', ref_symbols = '2') %>% 
-  font(part = 'all', fontname = 'Cambria') %>% 
-  fontsize(size = 10, part = 'all')
-
-```
 
 \newpage
 
@@ -226,33 +213,9 @@ suppl_figures$symptoms1$plot
 
 ```
 
-__Supplementary Figure S\@ref(fig:fig-symptoms1). Recovery of fatigue, sleep problems and dyspnea.__
+__Supplementary Figure S\@ref(fig:fig-symptoms1). Recovery of fatigue, sleep problems and dyspnea.__ 
 
-Frequencies of self-reported fatigue (__A__), sleep problems (__B__) and dyspnea (__C__) during acute COVID-19 and at the 2-, 3-, 6-month and 1-year follow-up were investigated in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors. Participants with the complete longitudinal data set were included in the analysis. The recovery was modeled by second-order mixed-effect logistic modeling and likelihood ratio test (full vs null model). P values were corrected for multiple testing with the Benjamini-Hochberg method. Likelihood ratio ($\lambda$), p values and numbers of participants with the complete longitudinal data set are presented in the plot captions.
-
-\newpage
-
-```{r fig-symptoms2, fig.width = mm_inch(suppl_figures$symptoms2$w), fig.height = mm_inch(suppl_figures$symptoms2$h), fig.cap = 'Recovery from night sweating, cough and smell disorders.'}
-
-suppl_figures$symptoms2$plot
-
-```
-
-__Supplementary Figure S\@ref(fig:fig-symptoms2). Recovery from night sweating, cough and smell disorders.__
-
-Frequencies of self-reported night sweating (__A__), cough (__B__) and hypo- or anosmia (__C__) during acute COVID-19 and at the 2-, 3-, 6-month and 1-year follow-up were investigated in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors. Participants with the complete longitudinal data set were included in the analysis. The recovery was modeled by second-order mixed-effect logistic modeling and likelihood ratio test (full vs null model). P values were corrected for multiple testing with the Benjamini-Hochberg method. Likelihood ratio ($\lambda$), p values and numbers of participants with the complete longitudinal data set are presented in the plot captions.
-
-\newpage
-
-```{r fig-lft, fig.width = mm_inch(suppl_figures$lft$w), fig.height = mm_inch(suppl_figures$lft$h), fig.cap = 'Changes in FEV1, FVC and DLCO during COVID-19 convalescence.'}
-
-suppl_figures$lft$plot
-
-```
-
-__Supplementary Figure S\@ref(fig:fig-lft). Changes in FEV1, FVC and DLCO during COVID-19 convalescence.__
-
-FEV1 (forced expiratory volume in 1 second, __A__), FVC (forced vital capacity, __B__) and DLCO (diffusion lung capacity for carbon monoxide, __C__) were analyzed at the 2-, 3-, 6-month and 1-year follow-up in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors. Participants with the complete longitudinal data set were included in the analysis. The recovery was assessed with Friedman test with Kendall's W effect size statistic. P values were corrected for multiple testing with the Benjamini-Hochberg method. W, p values and numbers of participants with the complete longitudinal data set are presented in the plot captions. Gray lines indicate parameter values for particular individuals, thick colored lines represented parameter medians, tinted regions indicate interquartile ranges.
+_Frequencies of reduced physical performance (Eastern Cooperative Oncology score [ECOG] $\geq$ 1) (A), self-reported sleep problems (B) and dyspnea (modified Medical Research Council score [mMRC] $\geq$ 1) (C) during acute COVID-19 and at the 2-, 3-, 6-month and one-year follow-up were investigated in the entire study collective and in ambulatory, moderate and severe COVID-19 survivors. Participants with the complete longitudinal data set were included in the analysis. The symptom kinetic was analyzed by second-order mixed-effect logistic modeling and likelihood ratio test (full vs null model). P values were corrected for multiple testing with the Benjamini-Hochberg method. Likelihood ratio ($\lambda$), p values and numbers of participants with the complete longitudinal data set are presented in the plot captions._
 
 \newpage
 
@@ -263,16 +226,8 @@ suppl_figures$phys_mental_recovery1$plot
 ```
 
 __Supplementary Figure S\@ref(fig:fig-overlap1). Impact of persistent symptoms and LFT abnormality on physical and mental recovery from COVID-19.__ 
-Rating of physical recovery (fatigue and six-minute walking distance/SMWD), self-perceived general health, daily functioning and mental health was compared between participants with or without persistent symptoms (A) and with or without lung function testing (LFT) abnormalities (B) at the one-year follow-up. Statistical significance was assessed by Mann-Whitney U test corrected for multiple testing with Benjamini-Hochberg method. Normalized (Z score) mean rating values with 2$\times$SEM are presented in radial plots. Numbers of complete observations are indicated under the plots.
 
-SMWD vs ref.: six minute walking distance, difference versus the reference value; 
-EQ5DL: European quality of life 5 dimensions; 
-VAS: visual analogue scale; 
-PSS: perceived stress score; 
-CFS: Chalder fatigue score; 
-BRCS: brief resilient coping scale; 
-SSD: somatic symptom disorder; 
-imp.: impairment.
+_Six-minute walking distance (6MWD vs ref.: difference versus the reference value), fatigue rating (CFS: Chalder fatigue score), self-perceived general health (EQ5D5L VAS: European quality of life 5 dimensions, 5 levels, visual analogue scale), self-reported mobility, self-care and activity impairment scores (EQ5D5L: European quality of life 5 dimensions, 5 levels, imp.: impairment), pain/discomfort and depression/anxiety ratings (EQ5D5L), stress (PSS: 4-item perceived stress scale), resilience (BRCS: brief resilient coping scale), and somatic symptom disorder scoring (SSD-12: somatic symptom disorder - B criteria scale) were compared between participants with or without persistent symptoms (A) and with or without lung function testing (LFT) abnormalities (B) at the one-year follow-up. Statistical significance was assessed by Mann-Whitney U test corrected for multiple testing with Benjamini-Hochberg method. Normalized (Z score) mean variable values with 2$\times$SEM are presented in radial plots. Numbers of complete observations are indicated under the plots._
 
 \newpage
 
@@ -283,16 +238,8 @@ suppl_figures$phys_mental_recovery2$plot
 ```
 
 __Supplementary Figure S\@ref(fig:fig-overlap2). Impact of lung CT and cardiological abnormality on physical and mental recovery from COVID-19.__ 
-Rating of physical recovery (fatigue and six-minute walking distance/SMWD), self-perceived general health, daily functioning and mental health was compared between participants with or without lung CT abnormality (A) and with or without diastolic dysfunction (B) at the one-year follow-up. Statistical significance was assessed by Mann-Whitney U test corrected for multiple testing with Benjamini-Hochberg method. Normalized (Z score) mean rating values with 2$\times$SEM are presented in radial plots. Numbers of complete observations are indicated under the plots.
 
-SMWD vs ref.: six minute walking distance, difference versus the reference value; 
-EQ5DL: European quality of life 5 dimensions; 
-VAS: visual analogue scale; 
-PSS: perceived stress score; 
-CFS: Chalder fatigue score; 
-BRCS: brief resilient coping scale; 
-SSD: somatic symptom disorder, 
-imp.: impairment.
+_Six-minute walking distance (6MWD vs ref.: difference versus the reference value), fatigue rating (CFS: Chalder fatigue score), self-perceived general health (EQ5D5L VAS: European quality of life 5 dimensions, 5 levels, visual analogue scale), self-reported mobility, self-care and activity impairment scores (EQ5D5L: European quality of life 5 dimensions, 5 levels, imp.: impairment), pain/discomfort and depression/anxiety ratings (EQ5D5L), stress (PSS: 4-item perceived stress scale), resilience (BRCS: brief resilient coping scale), and somatic symptom disorder scoring (SSD-12: somatic symptom disorder - B criteria scale) were compared between participants with or without lung CT abnormality (A) and with or without diastolic dysfunction (B) at the one-year follow-up. Statistical significance was assessed by Mann-Whitney U test corrected for multiple testing with Benjamini-Hochberg method. Normalized (Z score) mean variance values with 2$\times$SEM are presented in radial plots. Numbers of complete observations are indicated under the plots._
 
 \newpage
 
@@ -302,149 +249,115 @@ suppl_figures$clust_qc$plot
 
 ```
 
-__Supplementary Figure S\@ref(fig:fig-clust-qc). Development of COVID-19 recovery clusters.__
+__Supplementary Figure S\@ref(fig:fig-clust-qc). Development of COVID-19 recovery clusters.__ 
 
-Clustering of the study participants in respect to `r length(globals$clust_variables)` binary symptom, cardiopulmonary and psychosocial features recorded at the 1-year follow-up (__Supplementary Tables S\@ref(tab:tab-study-vars)__ and __S\@ref(tab:tab-battery)__) was investigated with the PAM (partitioning around medoids) algorithm with simple matching distance (SMD) statistic. Study participants with the complete clustering data set were included in the analysis (n = `r clustTools::nobs(part_clust$clust_obj)$observations`).
+_Clustering of the study participants in respect to symptoms (any symptom present, dyspnea: modified Medical Research Council score [mMRC] $\geq$ 1, reduced performance: Eastern Cooperative Oncology Group score [ECOG] $\geq$ 1, fatigue: bimodal Chalder fatigue score [CFS] $\geq$ 4, self-reported: sleep problems, cough, night sweating and hyposmia/anosmia), mobility (6MWD < ref.: six minute walking distance, difference versus the reference value), cardiopulmonary abnormalities (any chest computed tomography [CT] abnormality: CT severity score $\geq$ 1, any lung function testing [LFT] abnormality, diastolic dysfunction), significant stress (4-item perceived stress scale [PSS] >5), impaired self-perceived general health (European quality of life 5 dimensions, 5 levels [EQ5D5L] visual analogue scale [VAS] <73, imp.: impaired) as well as features of quality of life and mental health (EQ5D5L dimensions, cutoff: score >1) at the one-year follow-up. Clustering analysis was done with the PAM algorithm (PAM: partitioning around medoids, simple matching distance [SMD])._
 
-__(A)__ Performance comparison of various clustering algorithms and distance measures. Clustering algorithm stability was assessed by the rate of correct cluster assignment in 10-fold cross-validation (CV). Clustering variance is expressed as a ratio of the total between-cluster sum of squares to total sum of squares. Based on the optimal stability, PAM (partitioning around medoids) algorithm with the Manhattan distance statistic was chosen for further analyses.
+_(A) Performance comparison of various clustering algorithms and distance measures (algorithms: PAM, HCL: hierarchical clustering, SOM+PAM: combined self-organizing map/PAM, SOM+HCL: combined SOM/HCL algorithm, distances: Tanimoto and SMD). Clustering algorithm stability was assessed by the rate of correct cluster assignment in 10-fold cross-validation (CV). Clustering variance is expressed as a ratio of the total between-cluster sum of squares to total sum of squares. Based on the optimal stability, PAM (partitioning around medoids) algorithm with the SMD metric was chosen for further analyses._
 
-__(B)__ The total within-cluster sum sum of squares as a function of the cluster number for the PAM/SMD clustering procedure. The optimal cluster number (dashed red line) was set at the bend of the curve.
+_(B) The total within-cluster sum sum of squares as a function of the cluster number for the PAM/SMD clustering procedure. The optimal cluster number (dashed red line) was set at the bend of the curve._
+
+_(C) Permutation importance of the clustering factors was determined by calculating differences in clustering variances of the original clustering structure with clustering objects generated with the particular clustering factors re-shuffled randomly ($\Delta$ clustering variance). Results for 100 random permutations (runs) are presented. Each point represents a separate run. Box plots represent median differences in clustering variance with interquartile ranges (IQR). whiskers span over 150% IQR._
 
 \newpage
 
-```{r fig-clust-relapse, fig.width = mm_inch(suppl_figures$clust_relapse$w), fig.height = mm_inch(suppl_figures$clust_relapse$h), fig.cap = 'Rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.'}
+```{r fig-clust-relapse, fig.width = mm_inch(suppl_figures$clust_relapse$w), fig.height = mm_inch(suppl_figures$clust_relapse$h), fig.cap = 'Heat map of clustering features, frequency of CT abnormalities and rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.'}
 
 suppl_figures$clust_relapse$plot
 
 ```
 
-__Supplementary Figure S\@ref(fig:fig-clust-relapse). Rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.__
+__Supplementary Figure S\@ref(fig:fig-clust-relapse). Heat map of clustering features, frequency of CT abnormalities and rates of symptom relapse at the 12-month follow-up in the COVID-19 recovery clusters.__ 
 
-Rates of relapse for particular COVID-19-related symptoms at the 12-month follow-up as compared with the 6-month follow-up were compared between the COVID-19 recovery clusters (__Figure 7__, __Supplementary Figure S\@ref(fig:fig-clust-qc)__) with $\chi^2$ test with Cramer V effect size statistic. Individuals with the complete symptom record for the investigated follow-up were included in the analysis. P values were corrected for multiple testing with Benjamini-Hochberg method. Percentages of the relapsing individuals are presented as a bar plot. Significant differences are highlighted in bold. Effect size statistics and p values for the significant comparisons are indicated in the plot. Numbers of participants assigned to the clusters are presented under the plots.
+_(A) Cardiopulmonary (CP) abnormalities (CT abnormality: CT severity score $\geq$ 1, any LFT abnormality, diastolic dysfunction), mobility impairment (6MWD > ref.: six minute walking distance, difference versus the reference value), symptoms (any symptom present, dyspnea: modified Medical Research Council score [mMRC] $\geq$ 1, reduced performance: Eastern Cooperative Oncology Group score [ECOG] $\geq$ 1, fatigue: bimodal Chalder fatigue score [CFS] $\geq$ 4, self-reported: sleep problems, cough, night sweating and hyposmia/anosmia), significant stress (4-item perceived stress scale [PSS] >5), impaired self-perceived general health (European quality of life 5 dimensions, 5 levels [EQ5D5L] visual analogue scale [VAS] <73, imp.: impaired) as well as features of quality of life and mental health (EQ5D5L dimensions, cutoff: score >1) at the one-year follow-up in the COVID-19 recovery clusters. Presence/absence of the clustering features is presented in a heat map. Numbers of participants assigned to the clusters are displayed next to the plot._
+
+_(B) Frequencies of any chest CT abnormality at the one-year follow-up in ambulatory, moderate and severe COVID-19 patients assigned to the COVID-19 recovery clusters. Percentages of complete observations in each cluster are presented in bar plots. Numbers of complete observations are indicated in the Y axis._
+
+_(C) Rates of relapse of COVID-19-related symptoms at the one-year follow-up as compared with the 6-month follow-up in the COVID-19 recovery clusters were assessed by $\chi^2$ test with Cramer V effect size statistic. Only participants with the complete symptom record for the investigated follow-up were included in the analysis. P values were corrected for multiple testing with Benjamini-Hochberg method. Percentages of the relapsing individuals are presented as a bar plot. Effect size statistics and p values for the significant comparisons are indicated in the plot. Numbers of participants assigned to the clusters are presented under the plot._
 
 \newpage
 
-```{r fig-clust-extra, fig.width = mm_inch(suppl_figures$clust_extra$w), fig.height = mm_inch(suppl_figures$clust_extra$h), fig.cap = 'COVID-19 severity, demographic features, physical performance and mobility in the COVID-19 recovery clusters..'}
+```{r fig-clust-extra, fig.width = mm_inch(suppl_figures$clust_extra$w), fig.height = mm_inch(suppl_figures$clust_extra$h), fig.cap = 'Demographic features, COVID-19 severity, physical performance and mobility in the COVID-19 recovery clusters.'}
 
 suppl_figures$clust_extra$plot
 
 ```
 
-__Supplementary Figure S\@ref(fig:fig-clust-extra). COVID-19 severity, demographic features, physical performance and mobility in the COVID-19 recovery clusters..__
+__Supplementary Figure S\@ref(fig:fig-clust-extra). Demographic features, COVID-19 severity, physical performance and mobility in the COVID-19 recovery clusters.__ 
 
-Acute COVID-19 severity, sex and weight class distribution, age at COVID-19 diagnosis as well as physical performance (ECOG: Eastern Cooperative Oncology Group performance status) and six-minute walking distance (SMWD, difference between the observed and reference value at the 1-year follow-up were compared between the COVID-19 recovery clusters (__Figure 7__, __Supplementary Figure S\@ref(fig:fig-clust-qc)__). Statistical significance for numeric values was assessed by Kruskal-Wallis test with $\eta^2$ effect size statistic or by $\chi^2$ test with categorical variables with Cramer V effect size statistic. P values were corrected for multiple testing with Benjamini-Hochberg method. Effect size statistic and p values are presented in plot captions. Numbers of participants assigned to the clusters are presented under the plots.
-
-SMWD vs ref.: six-minute walking distance, observed versus reference value.
+_Age at COVID-19 diagnosis, sex, weight class distribution at COVID-19 diagnosis, acute COVID-19 severity, six-minute walking distance (6MWD vs ref.: difference between the observed and reference value) and physical performance scoring (ECOG: Eastern Cooperative Oncology Group score) at the one-year follow-up were compared between the COVID-19 recovery clusters. Statistical significance for numeric values was assessed by Kruskal-Wallis test with $\eta^2$ effect size statistic or by $\chi^2$ test with Cramer V effect size statistic for categorical variables. P values were corrected for multiple testing with Benjamini-Hochberg method. Effect size statistic and p values are presented in plot captions. Numbers of participants assigned to the clusters are presented under the plots._
 
 \newpage
 
-```{r fig-uni-mod-rsq1, fig.width = mm_inch(suppl_figures$uni_mod_rsq1$w), fig.height = mm_inch(suppl_figures$uni_mod_rsq1$h), fig.cap = 'Fractions of persistent symptom and LFT abnormality risk variance explained by independent variables.'}
-
-suppl_figures$uni_mod_rsq1$plot
-
-```
-
-__Supplementary Figure S\@ref(fig:fig-uni-mod-rsq1). Fractions of persistent symptom and LFT abnormality risk variance explained by independent variables.__ 
-Association of basic demographic parameters (age, sex, smoking history), co-morbidities, acute COVID-19 severity and acute symptoms and laboratory parameters recorded at the 60-day follow-up with the risk of persistent symptoms (__A__) or lung function testing (LFT) abnormality (__B__) at the one-year follow-up was investigated by univariate logistic modeling (__Supplementary Table S\@ref(tab:tab-uni-mod)__). Unadjusted $R^2$ statistic as a measure of risk variance explained by the independent variable was calculated for each model. Top 20 largest $R^2$ values are presented in bar plots. $R^2$ effect size was defined as none ($\leq$ 0.01), weak (0.01 - 0.09), moderate (0.09 - 0.25) and large (> 0.25). Effect size limits are depicted as dashed lines.
-
-anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; 
-NT-proBNP: N-terminal pro-brain natriuretic peptide; 
-IL6: interleukin 6; #: number of.
-
-\newpage
-
-```{r fig-uni-mod-rsq2, fig.width = mm_inch(suppl_figures$uni_mod_rsq2$w), fig.height = mm_inch(suppl_figures$uni_mod_rsq2$h), fig.cap = 'Fractions of CT abnormality and diastolic dysfunction risk variance explained by independent variables.'}
-
-suppl_figures$uni_mod_rsq2$plot
-
-```
-
-__Supplementary Figure S\@ref(fig:fig-uni-mod-rsq2). Fractions of CT abnormality and diastolic dysfunction risk variance explained by independent variables.__ 
-Association of basic demographic parameters (age, sex, smoking history), co-morbidities, acute COVID-19 severity and acute symptoms and laboratory parameters recorded at the 60-day follow-up with the risk of lung CT abnormality (__A__) or diastolic dysfunction (__B__) at the one-year follow-up was investigated by univariate logistic modeling (__Supplementary Table S\@ref(tab:tab-uni-mod)__). Unadjusted $R^2$ statistic as a measure of risk variance explained by the independent variable was calculated for each model. Top 20 largest $R^2$ values are presented in bar plots. $R^2$ effect size was defined as none ($\leq$ 0.01), weak (0.01 - 0.09), moderate (0.09 - 0.25) and large (> 0.25). Effect size limits are depicted as dashed lines.
-
-anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; 
-NT-proBNP: N-terminal pro-brain natriuretic peptide; 
-CRP: C-reactive protein; 
-IL6: interleukin 6; #: number of;
-FT: ferritin;
-CVD: cardiovascular disease; 
-CKD: chronic kidney disease; 
-GID: gastrointestinal disease.
-
-\newpage
-
-```{r fig-sympt-risk, fig.width = 7.086614166, fig.height = 7.87401574, fig.cap = 'Modeling of the persistent symptom risk at the 1-year post-COVID-19 follow-up.'}
+```{r fig-sympt-risk, fig.width = mm_inch(suppl_figures$sympt_risk$w), fig.height = mm_inch(suppl_figures$sympt_risk$h), fig.cap = 'Modeling of the persistent symptom risk at the one-year post-COVID-19 follow-up.'}
 
 suppl_figures$sympt_risk$plot
 
 ```
 
-__Figure \@ref(fig:fig-sympt-risk). Modeling of the persistent symptom risk at the 1-year post-COVID-19 follow-up.__ 
+__Supplementary Figure S\@ref(fig:fig-sympt-risk). Modeling of the persistent symptom risk at the one-year post-COVID-19 follow-up.__ 
 
-The risk of presence of COVID-19-related symptoms at the 1-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with LFT abnormalities are presented in __A__.
+_The risk of presence of COVID-19-related symptoms at the one-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the two-month follow-up (FUP). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with symptoms at the one-year follow-up are presented in A._
 
-__(A)__ Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor).
+_(A) Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor). Time point of variable recording and number of participants in the variable strata are indicated in the Y axis._
 
-__(B)__ Performance of the LASSO model at predicting persistent symptoms at the 1-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared (Rsq) and Cohen's kappa statistic values are shown in the plot captions.
+_(B) Performance of the LASSO model at predicting persistent symptoms at the one-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared and Cohen's kappa statistic values are shown in the plot captions._
 
-NT-proBNP: N-terminal pro-brain natriuretic peptide;
-GID: gastrointestinal disease; #: number of; 
-HM: hospitalized moderate COVID-19; 
-IL: interleukin 6.
+_NT-proBNP: N-terminal pro-brain natriuretic peptide; GID: gastrointestinal disease; #: number of; HM: hospitalized moderate COVID-19; IL6: interleukin 6._
 
 \newpage
 
-```{r fig-lft-risk, fig.width = mm_inch(suppl_figures$lft_risk$w), fig.height = mm_inch(suppl_figures$lft_risk$h), fig.cap = 'Modeling of the persistent functional lung abnormality at the 1-year post-COVID-19 follow-up.'}
+```{r fig-lft-risk, fig.width = mm_inch(suppl_figures$lft_risk$w), fig.height = mm_inch(suppl_figures$lft_risk$h), fig.cap = 'Modeling of the persistent functional lung abnormality at the one-year post-COVID-19 follow-up.'}
 
 suppl_figures$lft_risk$plot
 
 ```
 
-__Supplementary Figure S\@ref(fig:fig-lft-risk). Modeling of the persistent functional lung abnormality at the 1-year post-COVID-19 follow-up.__
+__Supplementary Figure S\@ref(fig:fig-lft-risk). Modeling of the persistent functional lung abnormality at the one-year post-COVID-19 follow-up.__ 
 
-The risk of any lung function testing (LFT) abnormality at the 1-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with LFT abnormalities are presented in __A__.
+_The risk of any lung function testing (LFT) abnormality at the one-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the two-month follow-up (FUP). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with LFT abnormality at the one-year follow-up are presented in A._
 
-__(A)__ Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor).
+_(A) Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor). Time point of variable recording and number of participants in the variable strata are indicated in the Y axis._
 
-__(B)__ Performance of the LASSO model at predicting lung function abnormalities at the 1-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared (Rsq) and Cohen's kappa statistic values are shown in the plot captions.
+_(B) Performance of the LASSO model at predicting LFT abnormality at the one-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared and Cohen's kappa statistic values are shown in the plot captions._
 
-IL6: interleukin 6; #: number of.
+_IL6: interleukin 6; #: number of._
 
 \newpage
 
-```{r fig-ct-risk, fig.width = mm_inch(suppl_figures$ct_risk$w), fig.height = mm_inch(suppl_figures$ct_risk$h), fig.cap = 'Modeling of the persistent radiological lung abnormality at the 1-year post-COVID-19 follow-up.'}
+```{r fig-ct-risk, fig.width = mm_inch(suppl_figures$ct_risk$w), fig.height = mm_inch(suppl_figures$ct_risk$h), fig.cap = 'Modeling of the persistent radiological lung abnormality at the one-year post-COVID-19 follow-up.'}
 
 suppl_figures$ct_risk$plot
 
 ```
 
-__Supplementary Figure S\@ref(fig:fig-ct-risk). Modeling of the persistent radiological lung abnormality at the 1-year post-COVID-19 follow-up.__
+__Supplementary Figure S\@ref(fig:fig-ct-risk). Modeling of the persistent radiological lung abnormality at the one-year post-COVID-19 follow-up.__ 
 
-The risk of any chest computed tomography (CT) abnormality at the 1-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with CT abnormalities are presented in __A__.
+_The risk of any chest computed tomography (CT) abnormality (CT severity score $\geq$ 1) at the one-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the two-month follow-up (FUP). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with CT abnormality at the one-year follow-up are presented in A._
 
-__(A)__ Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor).
+_(A) Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor). Time point of variable recording and number of participants in the variable strata are indicated in the Y axis._
 
-__(B)__ Performance of the LASSO model at predicting CT abnormalities at the 1-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared (Rsq) and Cohen's kappa statistic values are shown in the plot captions.
+_(B) Performance of the LASSO model at predicting CT abnormality at the one-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared and Cohen's kappa statistic values are shown in the plot captions._
 
-anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; Q3, Q4: 3^rd^ and 4^th^ quartile; CRP: C-reactive protein; IL6: interleukin 6; HS: hospitalized severe COVID-19; #: number of.
+_anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; Q3, Q4: 3^rd^ and 4^th^ quartile; CRP: C-reactive protein; IL6: interleukin 6; HS: hospitalized severe COVID-19; #: number of._
 
 \newpage
 
-```{r fig-dysf-risk, fig.width = mm_inch(suppl_figures$dysf_risk$w), fig.height = mm_inch(suppl_figures$dysf_risk$h), fig.cap = 'Modeling of the persistent diastolic dysfunction at the 1-year post-COVID-19 follow-up.'}
+```{r fig-dysf-risk, fig.width = mm_inch(suppl_figures$dysf_risk$w), fig.height = mm_inch(suppl_figures$dysf_risk$h), fig.cap = 'Modeling of the persistent diastolic dysfunction at the one-year post-COVID-19 follow-up.'}
 
 suppl_figures$dysf_risk$plot
 
 ```
 
-__Supplementary Figure S\@ref(fig:fig-dysf-risk). Modeling of the persistent diastolic dysfunction at the 1-year post-COVID-19 follow-up.__
+__Supplementary Figure S\@ref(fig:fig-dysf-risk). Modeling of the persistent diastolic dysfunction at the one-year post-COVID-19 follow-up.__ 
 
-The risk of diastolic dysfunction at the 1-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the 60-day follow-up (__Supplementary Table S\@ref(tab:tab-study-vars)__). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with diastolic dysfunction are presented in __A__.
+_The risk of diastolic dysfunction at the one-year follow-up was modeled with multi-parameter logistic LASSO (least absolute shrinkage and selection operator) regression and `r length(multi_mod$variables)` independent variables recorded during acute COVID-19 and at the two-month follow-up (FUP). Study participants with the complete independent variable set were included in the analysis, numbers of complete observations and participants with diastolic dysfunction at the one-year follow-up are presented in A._
 
-__(A)__ Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor).
+_(A) Non-zero model coefficient values presented as odds ratios (OR). Point size codes for the absolute OR value, point color codes for the correlation with the risk (blue: favorable, red: unfavorable factor). Time point of variable recording and number of participants in the variable strata are indicated in the Y axis._
 
-__(B)__ Performance of the LASSO model at predicting diastolic dysfunction at the 1-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared (Rsq) and Cohen's kappa statistic values are shown in the plot captions.
+_(B) Performance of the LASSO model at predicting diastolic dysfunction at the one-year follow-up in the training data set and 10-fold cross-validation (CV) assessed by receiver-operating characteristic (ROC). Area under the ROC curve (AUC), sensitivity (Se) and specificity (Sp) values with 95$\%$ confidence intervals (for CV) are presented in the plots. R-squared and Cohen's kappa statistic values are shown in the plot captions._
 
-GID: gastrointestinal disease; HS: hospitalized severe COVID-19; CRP: C-reactive protein; HM: hospitalized moderate COVID-19; FT: ferritin; CVD: cardiovascular disease; anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; Q4: 4^th^ quartile.
+_GID: gastrointestinal disease; HS: hospitalized severe COVID-19; CRP: C-reactive protein; HM: hospitalized moderate COVID-19; FT: ferritin; CVD: cardiovascular disease; anti-S1/S2 IgG: anti-S1/S2 SARS-CoV-2 immunoglobulin; Q3 and Q4: 3^rd^ and 4^th^ quartile._
 
 \newpage
 

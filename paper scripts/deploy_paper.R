@@ -3,10 +3,10 @@
   insert_head()
 
 # rendering the figures and tables ------
-
-  #insert_msg('Rendering the figures and tables')
   
- render('./paper/markdown/figures_and_tables.Rmd', 
+  insert_msg('Rendering the figures and tables')
+  
+  render('./paper/markdown/figures_and_tables.Rmd', 
          output_format = word_document2(number_sections = FALSE, 
                                         reference_docx = 'ms_template.docx'), 
          output_dir = './paper') 
@@ -20,11 +20,11 @@
                                         reference_docx = 'ms_template.docx'), 
          output_dir = './paper')
   
-# rendering the Editor figures ------
+# rendering the reviewer figures ------
   
-  insert_msg('Rendering the editor figures')
+  insert_msg('Rendering the reviewer figures')
   
-  render('./paper/markdown/figures_for_editor.Rmd', 
+  render('./paper/markdown/figures_for_reviewer.Rmd', 
          output_format = word_document2(number_sections = FALSE, 
                                         reference_docx = 'ms_template.docx'), 
          output_dir = './paper')

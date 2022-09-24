@@ -1,5 +1,7 @@
 # This script performs data analyses
 
+# tools ------
+
   library(soucer)
   library(exda)
   library(lme4)
@@ -16,7 +18,7 @@
   library(glue)
   library(ggtext)
   library(figur)
-  
+
   c('./tools/project_tools.R') %>% 
     source_all(message = TRUE, crash = TRUE)
   
@@ -29,6 +31,7 @@
   c('./analysis scripts/longitudinal_numeric.R', 
     './analysis scripts/longitudinal_prevalence.R', 
     './analysis scripts/prevalence_summary.R', 
+    './analysis scripts/steroid_fup.R', 
     './analysis scripts/correlations.R', 
     './analysis scripts/overlap.R', 
     './analysis scripts/pca.R', 
@@ -36,7 +39,8 @@
     './analysis scripts/clustering_binary.R', 
     './analysis scripts/cluster_characteristic.R', 
     './analysis scripts/cluster_relapse.R', 
-    './analysis scripts/cluster_inflammation.R') %>% 
+    './analysis scripts/cluster_inflammation.R', 
+    './analysis scripts/cluster_revision.R') %>% 
     source_all(message = TRUE, crash = TRUE)
 
   
